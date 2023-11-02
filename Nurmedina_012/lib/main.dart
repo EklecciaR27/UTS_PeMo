@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:main/signUp.dart'; 
  import 'package:main/signIn.dart'; 
-  import 'package:main/splashPage.dart'; 
+  import 'package:main/splashPage.dart';
+import 'package:main/suksestopup.dart'; 
 
 
 
@@ -22,10 +23,12 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashPage(), //akan menampilkan halaman splash
       'SignIn': (context) => SignInPage(),
       'SignUp': (context) => SignUpPage(),
+      'suksestopup': (context) => SuksesTopup(),
          
         
       },
       initialRoute: '/', //halaman pertama yang akan ditampilkan deluan
+      //home: SuksesTopup(),
     );
   }
 }
