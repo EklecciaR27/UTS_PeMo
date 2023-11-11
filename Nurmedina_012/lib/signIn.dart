@@ -12,7 +12,7 @@ class SignInPage extends StatelessWidget {
         primarySwatch: Colors.green, // You missed a comma here
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: SignInForm(title: 'Input Review'), // No need for 'const' here
+      home: const SignInForm(title: 'Input Review'), // No need for 'const' here
     );
   }
 }
@@ -42,13 +42,13 @@ class _SignInFormState extends State<SignInForm> {
       // ),
  body: Stack(
   children: <Widget>[
-    SizedBox(height: 10,),
+    const SizedBox(height: 10,),
     Container(
       width: 700,
       height: 900,
-      padding: EdgeInsets.only(left: 30, top : 20),
-      margin: EdgeInsets.only(bottom: 10),
-      child: Text("Welcome Back, \nto Flutix",
+      padding: const EdgeInsets.only(left: 30, top : 20),
+      margin: const EdgeInsets.only(bottom: 10),
+      child: const Text("Welcome Back, \nto Flutix",
       style:TextStyle(
         color: Color(0xFFC0CBAD),
         fontSize: 26,
@@ -64,7 +64,7 @@ class _SignInFormState extends State<SignInForm> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: Color(0xFF26413C),
+          color: const Color(0xFF26413C),
         ),
         width: 500,
         height: 900,
@@ -72,8 +72,8 @@ class _SignInFormState extends State<SignInForm> {
           children: [
           Positioned(
             child: Container(
-              margin: EdgeInsets.only(right: 230, top: 30),
-              child: Text("Sign In",
+              margin: const EdgeInsets.only(right: 230, top: 30),
+              child: const Text("Sign In",
               style: TextStyle(
                 color: Color(0xFFC0CBAD),
                 fontSize: 25,
@@ -82,7 +82,7 @@ class _SignInFormState extends State<SignInForm> {
             )
           
           ),
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Container(  
               width: 310,
               child:TextField(
@@ -92,34 +92,34 @@ class _SignInFormState extends State<SignInForm> {
                     fillColor: Colors.white,// warna latar belakang
                     enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                     color: Color(0xFF8AB0AB),
               ),
             ),
             focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                     color: Colors.white,
                   ),
               ),
                     labelText: "Email",
                     hintText: "Email",
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white
                     ),
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       color: Colors.white
                     ),
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold
               ),
             ) ,
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Container(
               width: 310,
               child:TextField(
@@ -129,28 +129,28 @@ class _SignInFormState extends State<SignInForm> {
                     fillColor: Colors.white,// warna latar belakang
                     enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                     color: Color(0xFF8AB0AB),
               ),
             ),
             focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                     color: Colors.white,
                   ),
               ),
                     labelText: "Password",
                     hintText: "Password",
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white
                     ),
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       color: Colors.white
                     ),
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold
               ),
@@ -158,7 +158,7 @@ class _SignInFormState extends State<SignInForm> {
             ),
              
 
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
                     Container(
                       width: 250, // Atur lebar sesuai kebutuhan Anda
                       height: 40,
@@ -172,7 +172,7 @@ class _SignInFormState extends State<SignInForm> {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6.0), 
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: Color(0xFF8AB0AB),
                           width: 2.0,
                         )
@@ -180,9 +180,9 @@ class _SignInFormState extends State<SignInForm> {
                       ),
                     ),
                       foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // Warna teks
-                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF8AB0AB)), 
+                      backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF8AB0AB)), 
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment:MainAxisAlignment.center,
                       children :[
                         
@@ -198,12 +198,12 @@ class _SignInFormState extends State<SignInForm> {
 
                   ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Container(
                     child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't Have an Account?",
+                      const Text("Don't Have an Account?",
                       style: TextStyle(
                         color: Color(0xFF8AB0AB),
                         fontSize: 17,
@@ -212,9 +212,9 @@ class _SignInFormState extends State<SignInForm> {
                       ),
                       TextButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
                         }, 
-                        child: Text("Sign Up",
+                        child: const Text("Sign Up",
                         style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -239,7 +239,7 @@ class _SignInFormState extends State<SignInForm> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: SignInPage(),
   ));
 }
