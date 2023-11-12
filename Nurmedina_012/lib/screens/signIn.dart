@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/screens/confirmation_page.dart';
-
-import 'signUp.dart';
+import 'package:main/screens/signUp.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -12,10 +12,10 @@ class SignInPage extends StatelessWidget {
     return MaterialApp(
       title: 'Input Page',
       theme: ThemeData(
-        primarySwatch: Colors.green, // You missed a comma here
+        primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: SignInForm(title: 'Input Review'), // No need for 'const' here
+      home: SignInForm(title: 'Input Review'),
     );
   }
 }
@@ -33,37 +33,32 @@ class _SignInFormState extends State<SignInForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPW = TextEditingController();
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference dataUser =
-  FirebaseFirestore.instance.collection("data_user");
-
-
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Add Review"),
-      // ),
       body: Stack(
         children: <Widget>[
           SizedBox(
             height: 10,
           ),
           Container(
-              width: 700,
-              height: 900,
-              padding: EdgeInsets.only(left: 30, top: 20),
-              margin: EdgeInsets.only(bottom: 10),
-              child: Text(
-                "Welcome Back, \nto Flutix",
-                style: TextStyle(
-                    color: Color(0xFFC0CBAD),
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold),
-              )),
+            width: 700,
+            height: 900,
+            padding: EdgeInsets.only(left: 30, top: 20),
+            margin: EdgeInsets.only(bottom: 10),
+            child: Text(
+              "Welcome Back, \nto Flutix",
+              style: TextStyle(
+                color: Color(0xFFC0CBAD),
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
           Positioned(
-            top: 300, // Mengatur posisi ke atas
+            top: 300,
             right: 0,
             left: 1,
             child: Container(
@@ -76,16 +71,18 @@ class _SignInFormState extends State<SignInForm> {
               child: Column(
                 children: [
                   Positioned(
-                      child: Container(
-                    margin: EdgeInsets.only(right: 230, top: 30),
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(
+                    child: Container(
+                      margin: EdgeInsets.only(right: 230, top: 30),
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(
                           color: Color(0xFFC0CBAD),
                           fontSize: 25,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  )),
+                  ),
                   SizedBox(
                     height: 40,
                   ),
@@ -94,8 +91,8 @@ class _SignInFormState extends State<SignInForm> {
                     child: TextField(
                       controller: _controllerEmail,
                       decoration: InputDecoration(
-                        filled: false, // latar belakang
-                        fillColor: Colors.white, // warna latar belakang
+                        filled: false,
+                        fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
@@ -111,13 +108,16 @@ class _SignInFormState extends State<SignInForm> {
                         labelText: "Email",
                         hintText: "Email",
                         labelStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                         hintStyle: TextStyle(color: Colors.white),
                       ),
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -128,8 +128,8 @@ class _SignInFormState extends State<SignInForm> {
                     child: TextField(
                       controller: _controllerPW,
                       decoration: InputDecoration(
-                        filled: false, // latar belakang
-                        fillColor: Colors.white, // warna latar belakang
+                        filled: false,
+                        fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
@@ -145,40 +145,98 @@ class _SignInFormState extends State<SignInForm> {
                         labelText: "Password",
                         hintText: "Password",
                         labelStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                         hintStyle: TextStyle(color: Colors.white),
                       ),
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   SizedBox(height: 40),
                   Container(
-                    width: 250, // Atur lebar sesuai kebutuhan Anda
+                    width: 250,
                     height: 40,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        String email = _controllerEmail.text.trim();
+                        String password = _controllerPW.text.trim();
+
+                        if (email.isEmpty || password.isEmpty) {
+                          // Peringatkan pengguna jika email atau kata sandi kosong
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Peringatan'),
+                                content:
+                                    Text('Email dan kata sandi harus diisi.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          return;
+                        }
+
+                       try {
+  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+    email: email,
+    password: password,
+  );
+
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ConfirmationPage()));
+                              builder: (context) => ConfirmationPage(),
+                            ),
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          print("FirebaseAuthException: ${e.message}");
+                          print("Kode FirebaseAuthException: ${e.code}");
+
+                          // Tindakan respons umum untuk kesalahan otentikasi
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Gagal Autentikasi'),
+                                content: Text('Email atau kata sandi tidak valid.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                              side: BorderSide(
-                                color: Color(0xFF8AB0AB),
-                                width: 2.0,
-                              )
-                              // Radius sudut disesuaikan sesuai kebutuhan Anda
-                              ),
+                            borderRadius: BorderRadius.circular(6.0),
+                            side: BorderSide(
+                              color: Color(0xFF8AB0AB),
+                              width: 2.0,
+                            ),
+                          ),
                         ),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Warna teks
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Color(0xFF8AB0AB)),
                       ),
@@ -189,7 +247,9 @@ class _SignInFormState extends State<SignInForm> {
                           Text(
                             "Sign In",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w400),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ],
                       ),
@@ -205,30 +265,34 @@ class _SignInFormState extends State<SignInForm> {
                         Text(
                           "Don't Have an Account?",
                           style: TextStyle(
-                              color: Color(0xFF8AB0AB),
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
+                            color: Color(0xFF8AB0AB),
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SignUpPage(title: 'Your Title Here'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpPage(
+                                  title: 'Your Title Here',
                                 ),
-                              );
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            ))
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -238,9 +302,3 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: SignInPage(),
-//   ));
-// }
