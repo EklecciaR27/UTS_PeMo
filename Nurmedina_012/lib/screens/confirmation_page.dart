@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/bottom_nav.dart';
+import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
 
 class ConfirmationPage extends StatefulWidget {
@@ -152,7 +154,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const HomeMoviePage(), // menggunakan AboutPage dari about_page.dart
+                            builder: (context) => BottomNav(), // menggunakan AboutPage dari about_page.dart
                           ));
                         },
                         child: const Padding(

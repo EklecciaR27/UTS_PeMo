@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/bottom_nav.dart';
+import '../widgets/bottom_nav.dart';
 import 'movie_details_page.dart';
 
 class HomeMoviePage extends StatefulWidget {
@@ -131,70 +133,13 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   int currentIndex = 0; // penentu icon aktif bottom navigation bar
 
   // list menampung semua tujuan bottom navigation bar
-  List<Widget> menuBottomNav = [
-    const HomeMoviePage(),
-    const Icon(
-      Icons.category,
-      color: Color(0xFF1A1D1A),
-      size: 30, // Ukuran ikon
-    ),
-    const Icon(
-      Icons.category,
-      color: Color(0xFF1A1D1A),
-      size: 30, // Ukuran ikon
-    ),
-  ];
+
   @override
   Widget build(BuildContext context) {
     var lebar = MediaQuery.of(context).size.width;
     var tinggi = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color(0xFF1A1D1A), // warna latar belak
-      bottomNavigationBar: BottomNavigationBar(
-        // bottom navigation bar
-        currentIndex:
-            currentIndex, // index item yang aktif saat ini/yang terpilih
-        backgroundColor: const Color(0xFF1A1D1A), // warna background
-        onTap: (index) {
-          // aksi saat ditekan
-          setState(() {
-            currentIndex = index; // memperbarui index
-          });
-        },
-        items: const [
-          // item-item bottom navigation bar
-          BottomNavigationBarItem(
-            // item pertama
-            icon: Icon(Icons.movie_creation_outlined,
-                color: Color(0xFF25403B), size: 30), // icon
-            activeIcon: Icon(Icons.movie,
-                color: Color(0xFF8AB0AB),
-                size: 30), // warna icon saat aktif/terpilih
-            label: "Movie", // label icon
-          ),
-          BottomNavigationBarItem(
-            // item kedua
-            icon: Icon(Icons.airplane_ticket_outlined,
-                color: Color(0xFF25403B), size: 30),
-            activeIcon: Icon(Icons.airplane_ticket,
-                color: Color(0xFF8AB0AB),
-                size: 30), // warna icon saat aktif/terpilih
-            label: "My Tickets", // label icon
-          ),
-          BottomNavigationBarItem(
-            // item ketiga
-            icon:
-                Icon(Icons.person, color: Color(0xFF25403B), size: 30), // icon
-            activeIcon: Icon(Icons.person,
-                color: Color(0xFF8AB0AB),
-                size: 30), // warna icon saat aktif/terpilih
-            label: "Profil", // label icon
-          ),
-        ],
-        unselectedItemColor:
-            const Color(0xFF25403B), // warna item yang tidak aktif
-        selectedItemColor: const Color(0xFF8AB0AB), // warna icon saat aktif
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -214,7 +159,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(
-                                'https://tse1.mm.bing.net/th?id=OIP.k5ibySapu-61GoJC0RIN1QHaDt&pid=Api&P=0&h=180'),
+                               'https://tse1.mm.bing.net/th?id=OIP.k5ibySapu-61GoJC0RIN1QHaDt&pid=Api&P=0&h=180'),
                             fit: BoxFit.cover,
                           ),
                         ),
