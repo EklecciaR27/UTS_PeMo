@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="flutixconfig" type="DartTestRunConfigurationType" factoryName="Dart Test">
+    <option name="filePath" value="$PROJECT_DIR$/Nurmedina_012" />
+    <option name="scope" value="FOLDER" />
+    <option name="testRunnerOptions" value="chrome" />
+    <method v="2" />
+  </configuration>
+</component>
