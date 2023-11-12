@@ -10,7 +10,7 @@ List<Movies> myMovies = [
       star: "Taisa Farmiga",
       globe: "IMDB",
       director: "John",
-      storyLine: "The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story of the love between Jack Dawson (played by Leonardo DiCaprio) and Rose DeWitt Bukater (played by Kate Winslet) that begins aboard the luxurious ship, RMS Titanic",
+      storyLine: "The Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story of the love between Jack Dawson (played by Leonardo DiCaprio) and Rose DeWitt Bukater (played by Kate Winslet) that begins aboard the luxurious ship, RMS Titanic",
     ),
     Movies(
       img: "posterFilm2.jpg",
