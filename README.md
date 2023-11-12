@@ -6,3 +6,4 @@ dina lagi
 ini chimaagi
 ini aku la
 ini chimaa
+ini chimaa risma
