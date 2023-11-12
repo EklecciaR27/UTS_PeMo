@@ -1,54 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:main/models/topupAmount.dart';
+import 'package:main/models/user.dart';
 
-class topup extends StatelessWidget {
-  const topup({super.key});
+class TopupPage extends StatefulWidget {
+  const TopupPage({Key? key, required this.email}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: TopUpPage(
-        amount: '',
-      ),
-    );
-  }
-}
-
-class TopUpPage extends StatefulWidget {
-  const TopUpPage({super.key, required this.amount});
-
-  final String amount;
+  final String? email; // Menggunakan tipe data String untuk email
 
   @override
-  State<TopUpPage> createState() => _TopUpPageState();
+  _TopupPageState createState() => _TopupPageState();
 }
 
-class _TopUpPageState extends State<TopUpPage> {
+class _TopupPageState extends State<TopupPage> {
   final TextEditingController _amountController = TextEditingController();
-  String? amount = '';
+  final TextEditingController _emailController = TextEditingController(); // Menambahkan controller untuk field email
 
   @override
   void dispose() {
     _amountController.dispose();
+    _emailController.dispose(); // Memastikan untuk menghapus controller email
     super.dispose();
-  }
-
-  void initState() {
-    super.initState();
-    _amountController.addListener(_printLatestValueAmount);
   }
 
   void _printLatestValueAmount() {
     print('Amount : ${_amountController.text}');
   }
 
+  void _submitTopup() {
+    double nominal = double.parse(_amountController.text);
+    String email = _emailController.text; // Mengambil nilai dari controller email
+
+    // Validasi agar tidak memasukkan data kosong ke Firestore
+    if (nominal > 0 && email.isNotEmpty) {
+      // Buat objek TopupAmount
+      TopupAmount topupAmount = TopupAmount(
+        nominal: nominal,
+        email: email,
+      );
+
+      // Simpan data ke Firestore
+      FirebaseFirestore.instance.collection('topup_amount').add(topupAmount.toMap());
+
+      // Tambahkan logika lain yang diperlukan setelah topup
+    } else {
+      // Tampilkan pesan kesalahan jika data tidak lengkap
+      // TODO: Sesuaikan pesan kesalahan sesuai kebutuhan
+      print("Nominal dan email harus diisi");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 0, 0, 0),
       body: Column(
         children: [
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
@@ -65,7 +73,8 @@ class _TopUpPageState extends State<TopUpPage> {
                     ),
                     padding: EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
                   ),
                 )
               ],
@@ -84,9 +93,7 @@ class _TopUpPageState extends State<TopUpPage> {
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Row(
@@ -110,34 +117,32 @@ class _TopUpPageState extends State<TopUpPage> {
                 hintText: "IDR.",
                 hintStyle: TextStyle(color: Colors.grey),
                 labelText: "Amount",
-                labelStyle: TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
+                labelStyle:
+                    TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Color.fromARGB(193, 1, 143, 122), 
-                    width: 1.0, 
+                    color: Color.fromARGB(193, 1, 143, 122),
+                    width: 1.0,
                   ),
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: const Color.fromARGB(255, 138, 176, 171), 
-                    width: 1.0, 
+                    color: const Color.fromARGB(255, 138, 176, 171),
+                    width: 1.0,
                   ),
                 ),
               ),
               controller: _amountController,
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-
-
+          SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Row(
               children: [
                 Text(
-                  "Choose The Amount : ",
+                  "Email : ",
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     color: Color.fromARGB(255, 138, 176, 171),
                     fontSize: 20,
@@ -147,131 +152,47 @@ class _TopUpPageState extends State<TopUpPage> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      side:
-                          BorderSide(color: Color.fromARGB(255, 138, 176, 171))),
-                  child: Text(
-                    'Rp.50.000',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 138, 176, 171),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      side:
-                          BorderSide(color: Color.fromARGB(255, 138, 176, 171))),
-                  child: Text(
-                    'Rp.100.000',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 138, 176, 171),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      side:
-                          BorderSide(color: Color.fromARGB(255, 138, 176, 171))),
-                  child: Text(
-                    'Rp.150.000',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 138, 176, 171),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      side:
-                          BorderSide(color: Color.fromARGB(255, 138, 176, 171))),
-                  child: Text(
-                    'Rp.200.000',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 138, 176, 171),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      side:
-                          BorderSide(color: Color.fromARGB(255, 138, 176, 171))),
-                  child: Text(
-                    'Rp.300.000',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 138, 176, 171),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      side:
-                          BorderSide(color: Color.fromARGB(255, 138, 176, 171))),
-                  child: Text(
-                    'Rp.500.000',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 138, 176, 171),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-          ),
-          SizedBox(height: 20,),
           SizedBox(
-                  height: 40, width: 140,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //Navigator.pushNamed(context, '/home');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Color.fromARGB(255, 138, 176, 171), 
-                    ),
-                    child: Text('Top Up Now',
-                    style: TextStyle (
-                      color: Colors.white
-                    ),),   
-
+            width: 300,
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Email.",
+                hintStyle: TextStyle(color: Colors.grey),
+                labelText: "Email",
+                labelStyle:
+                    TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(193, 1, 143, 122),
+                    width: 1.0,
                   ),
                 ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: const Color.fromARGB(255, 138, 176, 171),
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              controller: _emailController,
+            ),
+          ),
+          SizedBox(
+            height: 40,
+            width: 140,
+            child: ElevatedButton(
+              onPressed: _submitTopup,
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Color.fromARGB(255, 138, 176, 171),
+              ),
+              child: Text(
+                'Top Up Now',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
         ],
-        
-
-        
       ),
     );
   }
