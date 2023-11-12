@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main/screens/select_seat.dart';
 
-
 class detailsTiket extends StatefulWidget {
   const detailsTiket({super.key});
 

@@ -81,6 +81,7 @@ flutter:
   - assets/war.PNG
   - assets/comedy.PNG
   - assets/action.PNG
+  - assets/myName.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

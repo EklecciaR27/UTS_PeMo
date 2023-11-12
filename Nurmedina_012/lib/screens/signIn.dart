@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/screens/confirmation_page.dart';
@@ -189,11 +188,12 @@ class _SignInFormState extends State<SignInForm> {
                           return;
                         }
 
-                       try {
-  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-    email: email,
-    password: password,
-  );
+                        try {
+                          UserCredential userCredential =
+                              await _auth.signInWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
 
                           Navigator.push(
                             context,
@@ -211,7 +211,8 @@ class _SignInFormState extends State<SignInForm> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text('Gagal Autentikasi'),
-                                content: Text('Email atau kata sandi tidak valid.'),
+                                content:
+                                    Text('Email atau kata sandi tidak valid.'),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -226,7 +227,8 @@ class _SignInFormState extends State<SignInForm> {
                         }
                       },
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             side: BorderSide(

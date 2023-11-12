@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:main/models/jadwal.dart';
+import 'package:main/models/jadwal_data.dart';
+import 'package:main/models/place.dart';
+import 'package:main/models/place_data.dart';
 import 'package:main/screens/select_seat.dart';
 
 class selectCategory extends StatefulWidget {
@@ -10,90 +13,6 @@ class selectCategory extends StatefulWidget {
 }
 
 class _selectCategoryState extends State<selectCategory> {
-  static List<CategoriTimes> myCategory = [
-    CategoriTimes(
-      tanggal: "30", // Ganti dengan ukuran yang sesuai
-      hari: "Mon",
-    ),
-    CategoriTimes(
-      tanggal: "31",
-      hari: "Tue",
-    ),
-    CategoriTimes(
-      tanggal: "1",
-      hari: "Wed",
-    ),
-    CategoriTimes(
-      tanggal: "2",
-      hari: "Thur",
-    ),
-    CategoriTimes(
-      tanggal: "3",
-      hari: "Fri",
-    ),
-    CategoriTimes(
-      tanggal: "4",
-      hari: "Sat",
-    ),
-  ];
-
-  static List<CategoryPlace1> categoryBm = [
-    CategoryPlace1(
-      tempat: 'XXI BIG MALL',
-      waktu: '12:00',
-    ),
-    CategoryPlace1(
-      tempat: 'XXI BIG MALL',
-      waktu: '15:00',
-    ),
-    CategoryPlace1(
-      tempat: 'XXI BIG MALL',
-      waktu: '18:00',
-    ),
-    CategoryPlace1(
-      tempat: 'XXI BIG MALL',
-      waktu: '21:00',
-    ),
-  ];
-
-  static List<CategoryPlace2> categorySs = [
-    CategoryPlace2(
-      tempat: 'XII SAMARINDA SQUARE',
-      waktu: '12:00',
-    ),
-    CategoryPlace2(
-      tempat: 'XXI SAMARINDA SQUARE',
-      waktu: '15:00',
-    ),
-    CategoryPlace2(
-      tempat: 'XXI SAMARINDA SQUARE',
-      waktu: '18:00',
-    ),
-    CategoryPlace2(
-      tempat: 'XXI SAMARINDA SQUARE',
-      waktu: '21:00',
-    ),
-  ];
-
-  List<CategoryPlace3> categoryCc = [
-    CategoryPlace3(
-      tempat: 'XXI CITY SENTRUM',
-      waktu: '12:00',
-    ),
-    CategoryPlace3(
-      tempat: 'XXI CITY CENTRUM',
-      waktu: '15:00',
-    ),
-    CategoryPlace3(
-      tempat: 'XXI CITY CENTRUM',
-      waktu: '18:00',
-    ),
-    CategoryPlace3(
-      tempat: 'XXI CITY CENTRUM',
-      waktu: '18:00',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     var lebar = MediaQuery.of(context).size.width;
@@ -121,11 +40,11 @@ class _selectCategoryState extends State<selectCategory> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.only(top: 5),
-              itemCount: myCategory.length,
+              itemCount: timesCategory.length,
               itemBuilder: (_, i) {
                 return Container(
                   padding: const EdgeInsets.only(left: 20),
-                  child: CategoriTimesTile(catTimes: myCategory[i]),
+                  child: CategoriTimesTile(catTimes: timesCategory[i]),
                 );
               },
             ),
@@ -264,35 +183,42 @@ class CategoryPlaceTile1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 60,
-        height: 70,
-        margin: const EdgeInsets.fromLTRB(18, 0, 10, 0),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 192, 203, 173),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            Text(
-              catBM.waktu,
-              style: const TextStyle(
-                fontSize: 18,
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-              textAlign: TextAlign.center,
+    return GestureDetector(
+        onTap: () {
+          // Handle the tap event here
+          // You can navigate to the new screen or perform any other action
+          print('Place tapped: ${catBM.tempat}');
+        },
+        // Handle the tap event here
+        child: Container(
+            width: 60,
+            height: 70,
+            margin: const EdgeInsets.fromLTRB(18, 0, 10, 0),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 192, 203, 173),
+              borderRadius: BorderRadius.circular(10),
             ),
-            const SizedBox(height: 8),
-            const Text(
-              "Hour",
-              style: TextStyle(
-                fontSize: 10,
-                color: Color.fromARGB(255, 62, 80, 92),
-              ),
-            ),
-          ],
-        ));
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Text(
+                  catBM.waktu,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  "Hour",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Color.fromARGB(255, 62, 80, 92),
+                  ),
+                ),
+              ],
+            )));
   }
 }
 
@@ -426,44 +352,4 @@ class CategoriTimesTile extends StatelessWidget {
       ),
     );
   }
-}
-
-class CategoriTimes {
-  final String tanggal;
-  final String hari;
-
-  CategoriTimes({
-    required this.tanggal,
-    required this.hari,
-  });
-}
-
-class CategoryPlace1 {
-  final String tempat;
-  final String waktu;
-
-  CategoryPlace1({
-    required this.tempat,
-    required this.waktu,
-  });
-}
-
-class CategoryPlace2 {
-  final String tempat;
-  final String waktu;
-
-  CategoryPlace2({
-    required this.tempat,
-    required this.waktu,
-  });
-}
-
-class CategoryPlace3 {
-  final String tempat;
-  final String waktu;
-
-  CategoryPlace3({
-    required this.tempat,
-    required this.waktu,
-  });
 }

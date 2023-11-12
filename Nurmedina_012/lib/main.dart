@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/firebase_options.dart';
+import 'package:main/screens/selectJadwal.dart';
 import 'package:main/screens/signIn.dart';
 import 'package:main/screens/signUp.dart';
 import 'package:main/screens/splashPage.dart';
@@ -27,16 +28,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue, //warna tema utama
       ),
-      routes: {
-        '/': (context) => const ConfirmationPage(),
-        'SplashPage': (context) => const SplashPage(), //akan menampilkan halaman splash
-        'SignIn': (context) => const SignInPage(),
-        //'SignUp': (context) =>  SignUpPage(),
-        'suksestopup': (context) => const SuksesTopup(),
-        'confirmationpage': (context) => const ConfirmationPage(),
-      },
-      initialRoute: 'SplashPage', //halaman pertama yang akan ditampilkan deluan
-      //home: SuksesTopup(),
+      // routes: {
+      //   '/': (context) => const selectCategory(),
+      //   'SplashPage': (context) =>
+      //       const SplashPage(), //akan menampilkan halaman splash
+      //   'SignIn': (context) => const SignInPage(),
+      //   //'SignUp': (context) =>  SignUpPage(),
+      //   'suksestopup': (context) => const SuksesTopup(),
+      //   'confirmationpage': (context) => const ConfirmationPage(),
+      // },
+      // initialRoute:
+      //     '/', //halaman pertama yang akan ditampilkan deluan
+      home: const ConfirmationPage(),
     );
   }
 }

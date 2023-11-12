@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main/screens/ticket_details.dart';
 
 class SelectSeat extends StatefulWidget {
   const SelectSeat({Key? key}) : super(key: key);
@@ -14,11 +15,6 @@ class _SelectSeatState extends State<SelectSeat> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 26, 29, 26),
-      appBar: AppBar(
-        title: const Text("Course Schedule"),
-        backgroundColor: const Color.fromARGB(255, 26, 29, 26),
-        elevation: 0, // Remove the shadow
-      ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           children: [
@@ -129,7 +125,7 @@ class _SelectSeatState extends State<SelectSeat> {
             });
           },
           style: ElevatedButton.styleFrom(
-            primary: Color.fromARGB(255, 26, 29, 26), // background color
+            primary: const Color.fromARGB(255, 26, 29, 26), // background color
             //onPrimary: Colors.white, // text color
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
@@ -304,21 +300,31 @@ class _SelectSeatState extends State<SelectSeat> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(40, 25, 0, 0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color(0xFF8AB0AB),
-                          ),
-                          padding: const EdgeInsets.fromLTRB(60, 5, 60, 5),
-                          child: const Text(
-                            'Buy',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                        InkWell(
+                          onTap: () {
+                            // Navigasi ke halaman baru di sini
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const detailsTiket()),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(40, 25, 0, 0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: const Color(0xFF8AB0AB),
+                            ),
+                            padding: const EdgeInsets.fromLTRB(60, 5, 60, 5),
+                            child: const Text(
+                              'Buy',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
                             ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ],

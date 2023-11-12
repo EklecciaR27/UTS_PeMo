@@ -61,7 +61,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(
-                               'https://tse1.mm.bing.net/th?id=OIP.k5ibySapu-61GoJC0RIN1QHaDt&pid=Api&P=0&h=180'),
+                                'https://tse1.mm.bing.net/th?id=OIP.k5ibySapu-61GoJC0RIN1QHaDt&pid=Api&P=0&h=180'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -130,46 +130,48 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               Container(
                 width: lebar,
                 height: (tinggi - 280) / 2,
-                child: selectedCategory == null || selectedCategory!.titleCat == 'All'
+                child: selectedCategory == null ||
+                        selectedCategory!.titleCat == 'All'
                     ? ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(top: 5),
-                  itemCount: myMovies.length,
-                  itemBuilder: (context, i) {
-                    return Container(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: MovieTile(movie: myMovies[i]),
-                    );
-                  },
-                )
-                    : myMovies.any((fav) => fav.category == selectedCategory!.titleCat)
-                    ? ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(top: 5),
-                  itemCount: myMovies.length,
-                  itemBuilder: (context, i) {
-                    if (myMovies[i].category == selectedCategory!.titleCat) {
-                      return Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: MovieTile(movie: myMovies[i]),
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                )
-                    : const Center(
-                  child: Text(
-                    'No matches.', // Display this text when there are no matches
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Color(0xFFC0CAAD),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.only(top: 5),
+                        itemCount: myMovies.length,
+                        itemBuilder: (context, i) {
+                          return Container(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: MovieTile(movie: myMovies[i]),
+                          );
+                        },
+                      )
+                    : myMovies.any(
+                            (fav) => fav.category == selectedCategory!.titleCat)
+                        ? ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.only(top: 5),
+                            itemCount: myMovies.length,
+                            itemBuilder: (context, i) {
+                              if (myMovies[i].category ==
+                                  selectedCategory!.titleCat) {
+                                return Container(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: MovieTile(movie: myMovies[i]),
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          )
+                        : const Center(
+                            child: Text(
+                              'No matches.', // Display this text when there are no matches
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Color(0xFFC0CAAD),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
               ),
-
               const SizedBox(height: 15),
               Container(
                 height: 20,
@@ -208,7 +210,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   },
                 ),
               ),
-
               const SizedBox(height: 30),
               Container(
                 height: tinggi / 2 + 50,
