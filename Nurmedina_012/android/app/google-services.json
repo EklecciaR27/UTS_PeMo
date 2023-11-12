@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "32342543673",
+    "project_id": "flutix-kel3",
+    "storage_bucket": "flutix-kel3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32342543673:android:033a9808be5ff0aaecece8",
+        "android_client_info": {
+          "package_name": "com.example.main"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrLw3ZxhMt81nbkIf8DG90Ivz9BsCRiCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

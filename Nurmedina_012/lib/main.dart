@@ -1,11 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:main/signUp.dart';
-import 'package:main/signIn.dart';
-import 'package:main/splashPage.dart';
-import 'package:main/suksestopup.dart';
+import 'package:main/firebase_options.dart';
+import 'package:main/screens/signIn.dart';
+import 'package:main/screens/signUp.dart';
+import 'package:main/screens/splashPage.dart';
+import 'package:main/screens/suksescheckout.dart';
 
-void main() {
-  //fungsi utama
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -21,7 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashPage(), //akan menampilkan halaman splash
         'SignIn': (context) => const SignInPage(),
-        'SignUp': (context) => const SignUpPage(),
+        //'SignUp': (context) =>  SignUpPage(),
         'suksestopup': (context) => const SuksesTopup(),
       },
       initialRoute: '/', //halaman pertama yang akan ditampilkan deluan

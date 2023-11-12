@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:main/signIn.dart';
-import 'package:main/signUp.dart';
+
+import 'signIn.dart';
+import 'signUp.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -28,7 +29,9 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           children: [
             // Icon bloomthinc
-            SizedBox(height: 80,),
+            SizedBox(
+              height: 80,
+            ),
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.only(top: 0),
@@ -39,8 +42,10 @@ class _SplashPageState extends State<SplashPage> {
                 height: 350,
               ),
             ),
-            SizedBox(height: 10,),
-             Container(
+            SizedBox(
+              height: 10,
+            ),
+            Container(
               padding: EdgeInsets.only(bottom: 50, left: 60),
               child: Row(
                 children: [
@@ -55,7 +60,7 @@ class _SplashPageState extends State<SplashPage> {
                 ],
               ),
             ),
-            
+
             SizedBox(height: 40),
             Container(
               width: 200,
@@ -65,7 +70,8 @@ class _SplashPageState extends State<SplashPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SignUpPage(),
+                      builder: (context) =>
+                          SignUpPage(title: 'Your Title Here'),
                     ),
                   );
                 },
@@ -85,18 +91,20 @@ class _SplashPageState extends State<SplashPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               child: TextButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));
-                }, 
-                child: Text("Sign In to My Account",
-                style: TextStyle(
-                  color: Color(0xFF8AB0AB)
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignInPage()));
+                },
+                child: Text(
+                  "Sign In to My Account",
+                  style: TextStyle(color: Color(0xFF8AB0AB)),
                 ),
-                ),
-                ),
+              ),
             )
           ],
         ),
