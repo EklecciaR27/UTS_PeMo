@@ -23,13 +23,13 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               const SizedBox(height: 50),
                Container(
                  width: double.infinity,
-                 height: 40,
+                 height: 30,
                  child: const Padding(
                    padding: EdgeInsets.only(left: 50),
                    child: Text(
                      'Confirm', // teks
                      style: TextStyle(
-                       fontSize: 35, // ukuran teks
+                       fontSize: 25, // ukuran teks
                        color: Color(0xFFC0CAAD), // warna teks
                        fontWeight: FontWeight.bold, // membuat teks tebal
                      ),
@@ -39,20 +39,20 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               const SizedBox(height: 5),
               Container(
                 width: double.infinity,
-                height: 40,
+                height: 30,
                 child: const Padding(
                   padding: EdgeInsets.only(left: 50),
                   child: Text(
                     'New Account', // teks
                     style: TextStyle(
-                      fontSize: 35, // ukuran teks
+                      fontSize: 25, // ukuran teks
                       color: Color(0xFFC0CAAD), // warna teks
                       fontWeight: FontWeight.bold, // membuat teks tebal
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 150),
+              const SizedBox(height: 80),
               Stack(
                 children: [
               // widget container  dengan tinggi 850 piksel dan lebar maksimum untuk menampung widget lainnya
@@ -64,8 +64,8 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   ),
                   Center(
                       child: Container(
-                        width: 150, // Lebar ikon "person add"
-                        height: 150, // Tinggi ikon "person add"
+                        width: 130, // Lebar ikon "person add"
+                        height: 130, // Tinggi ikon "person add"
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color(0xFF8AB0AB), // Warna latar belakang ikon "person add"
@@ -73,21 +73,21 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                         child: const Icon(
                           Icons.person, // Ikon "person add"
                           color: Color(0xFF25403B), // Warna ikon
-                          size: 120,
+                          size: 100,
                         ),
                       ),
                     ),
                   Positioned(
-                    top: 120,
-                    left: (lebar-50)/2,
+                    top: 110,
+                    left: (lebar-40)/2,
                     child: Center(
                       child: InkWell(
                         onTap: () {
                           // Tindakan yang akan diambil saat tombol ditekan
                         },
                         child: Container(
-                          width: 50, // Lebar ikon "person add"
-                          height: 50, // Tinggi ikon "person add"
+                          width: 40, // Lebar ikon "person add"
+                          height: 40, // Tinggi ikon "person add"
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xFF25403B),
@@ -106,12 +106,12 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               const SizedBox(height: 15),
               Container(
                 width: double.infinity,
-                height: 40,
+                height: 30,
                   child: const Center(
                     child: Text(
                       'Welcome,', // teks
                       style: TextStyle(
-                        fontSize: 28, // ukuran teks
+                        fontSize: 25, // ukuran teks
                         color: Color(0xFFC0CAAD), // warna teks
                       ),
                     ),
@@ -120,18 +120,18 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               const SizedBox(height: 5),
               Container(
                 width: double.infinity,
-                height: 40,
+                height: 30,
                 child: const Center(
                   child: Text(
                     'Refal Hady', // teks
                     style: TextStyle(
-                      fontSize: 28, // ukuran teks
+                      fontSize: 25, // ukuran teks
                       color: Color(0xFFC0CAAD), // warna teks
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 150),
+              const SizedBox(height: 80),
               Container(
                   height: 80,
                   width: lebar, // Menggunakan MediaQuery untuk lebar tombol
@@ -142,7 +142,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                         child: Text(
                           'Yes, I am in',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
                             color: Color(0xFF8AB0AB),
                             fontWeight: FontWeight.bold, // membuat teks tebal
                           ),
@@ -162,7 +162,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                           child: Icon(
                             Icons.arrow_forward,
                             color: Color(0xFF8AB0AB),
-                            size: 50,
+                            size: 40,
                           ),
                         ),
                       )

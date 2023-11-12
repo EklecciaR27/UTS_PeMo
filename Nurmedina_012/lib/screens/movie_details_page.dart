@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:main/screens/selectJadwal.dart';
+import '../models/movies.dart';
 import 'home_movie_page.dart';
 
 class MovieDetailsPage extends StatelessWidget {
-  final FanFavorites fanfav;
+  final Movies movie;
 
-  MovieDetailsPage({required this.fanfav});
+  MovieDetailsPage({required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class MovieDetailsPage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: Image.asset(
-                      'assets/${fanfav.imgFanFav}',
+                      'assets/${movie.img}',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -52,7 +53,7 @@ class MovieDetailsPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 30),
                 child: Text(
-                  fanfav.titleFanFav,
+                  movie.title,
                   style: const TextStyle(
                     color: Color(0xFFC0CAAD),
                     fontSize: 20,
@@ -66,7 +67,7 @@ class MovieDetailsPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 3, left: 30),
               child: Row(
                 children: [
-                  if (fanfav.ratingFanFav == "A+")
+                  if (movie.rating == "A+")
                     Row(
                       children: List.generate(
                         5,
@@ -77,7 +78,7 @@ class MovieDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  if (fanfav.ratingFanFav == "A")
+                  if (movie.rating == "A")
                     Row(
                       children: List.generate(
                         4,
@@ -94,7 +95,7 @@ class MovieDetailsPage extends StatelessWidget {
                           ),
                         ),
                     ),
-                  if (fanfav.ratingFanFav == "B+")
+                  if (movie.rating == "B+")
                     Row(
                       children: [
                         ...List.generate(
@@ -115,7 +116,7 @@ class MovieDetailsPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (fanfav.ratingFanFav == "B")
+                  if (movie.rating == "B")
                     Row(
                       children: [
                         ...List.generate(
@@ -136,7 +137,7 @@ class MovieDetailsPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (fanfav.ratingFanFav == "C")
+                  if (movie.rating == "C")
                     Row(
                       children: [
                         const Icon(
@@ -170,7 +171,7 @@ class MovieDetailsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                              fanfav.categoryFanFav,
+                              movie.category,
                               style: const TextStyle(
                                 color: Color(0xFFC0CAAD),
                                 fontSize: 15,
@@ -191,7 +192,7 @@ class MovieDetailsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            fanfav.durationFanFav,
+                            movie.duration,
                             style: const TextStyle(
                               color: Color(0xFFC0CAAD),
                               fontSize: 15,
@@ -212,7 +213,7 @@ class MovieDetailsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            fanfav.directorFanFav,
+                            movie.director,
                             style: const TextStyle(
                               color: Color(0xFFC0CAAD),
                               fontSize: 15,
@@ -233,7 +234,7 @@ class MovieDetailsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            fanfav.ratingFanFav,
+                            movie.rating,
                             style: const TextStyle(
                               color: Color(0xFFC0CAAD),
                               fontSize: 15,
@@ -274,7 +275,7 @@ class MovieDetailsPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: Text(
-                  fanfav.storyLineFanFav,
+                  movie.storyLine,
                   style: const TextStyle(
                     color: Color(0xFFC0CAAD),
                     fontSize: 13,
@@ -331,7 +332,7 @@ class MovieDetailsPage extends StatelessWidget {
                             height: 25,
                             width: double.infinity,
                             child: Text(
-                              fanfav.starFanFav,
+                              movie.star,
                               style: const TextStyle(
                                 fontSize: 15, // ukuran teks
                                 color: Color(0xFFC0CAAD),
@@ -393,7 +394,7 @@ class MovieDetailsPage extends StatelessWidget {
                             height: 25,
                             width: double.infinity,
                             child: Text(
-                              fanfav.globeFanFav,
+                              movie.globe,
                               style: const TextStyle(
                                 fontSize: 15, // ukuran teks
                                 color: Color(0xFFC0CAAD),
