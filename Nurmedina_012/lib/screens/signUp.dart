@@ -30,6 +30,31 @@ class _SignUpPageState extends State<SignUpPage> {
   String password = _controllerPW.text;
   String confirmPassword = _controllerKonfirm.text;
 
+   if (fullName.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all the fields')),
+      );
+      return;
+    }
+
+    // Validasi format email
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegExp.hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid email format')),
+      );
+      return;
+    }
+
+    // Jika password tidak sama dengan konfirmasi password
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Passwords do not match')),
+      );
+      return;
+    }
+
+
   // Buat instance User baru
   User newUser = User(
     fullName: fullName,

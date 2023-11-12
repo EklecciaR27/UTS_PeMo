@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:main/screens/confirmation_page.dart';
 
@@ -31,6 +32,12 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPW = TextEditingController();
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference dataUser =
+  FirebaseFirestore.instance.collection("data_user");
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -232,8 +239,8 @@ class _SignInFormState extends State<SignInForm> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: SignInPage(),
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: SignInPage(),
+//   ));
+// }
