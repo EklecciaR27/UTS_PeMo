@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:main/models/user.dart';
+import 'package:main/models/user_data.dart';
 import 'signIn.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -19,27 +21,44 @@ class _SignUpPageState extends State<SignUpPage> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference dataUser =
-      FirebaseFirestore.instance.collection("data_user");
+  FirebaseFirestore.instance.collection("data_user");
+  userData userDataInstance = userData();
 
-  void signUp() {
-    String fullName = _controllerFullName.text;
-    String email = _controllerEmail.text;
-    String password = _controllerPW.text;
-    String confirmPassword = _controllerKonfirm.text;
+  void addUser() {
+  String fullName = _controllerFullName.text;
+  String email = _controllerEmail.text;
+  String password = _controllerPW.text;
+  String confirmPassword = _controllerKonfirm.text;
 
-    Map<String, dynamic> newUser = {
-      'fullName': fullName,
-      'email': email,
-      'password': password,
-      'confirmPassword': confirmPassword,
-    };
+  // Buat instance User baru
+  User newUser = User(
+    fullName: fullName,
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+    // Tambahkan gambar jika dibutuhkan
+    foto: Image.asset('path_to_image'), // Ganti 'path_to_image' dengan path gambar yang sesuai
+  );
 
-    dataUser.add(newUser).then((value) {
-      print("User Added");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignInPage()));
-    }).catchError((error) => print("Failed to add user: $error"));
-  }
+  // Menambahkan user ke dalam userData
+  userDataInstance.addUser(newUser);// Pastikan userData telah diinisialisasi sebelumnya
+
+  // Menyimpan data ke Firestore
+  Map<String, dynamic> userData = {
+    'fullName': newUser.fullName,
+    'email': newUser.email,
+    'password': newUser.password,
+    'confirmPassword': newUser.confirmPassword,
+    // Jika menyimpan gambar, gunakan tipe data yang sesuai seperti URL atau path
+    'foto': 'path_to_image',
+  };
+
+  dataUser.add(userData).then((value) {
+    print("User Added");
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));
+  }).catchError((error) => print("Failed to add user: $error"));
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +233,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 250, // Atur lebar sesuai kebutuhan Anda
                     height: 40,
                     child: ElevatedButton(
-                      onPressed: signUp, // Panggil signUp() saat tombol ditekan
+                      onPressed: addUser, // Panggil signUp() saat tombol ditekan
                       style: ButtonStyle(
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(

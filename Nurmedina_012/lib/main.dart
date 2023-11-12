@@ -28,13 +28,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue, //warna tema utama
       ),
       routes: {
-        '/': (context) => const ConfirmationPage(), //akan menampilkan halaman splash
+        '/': (context) => const ConfirmationPage(),
+        'SplashPage': (context) => const SplashPage(), //akan menampilkan halaman splash
         'SignIn': (context) => const SignInPage(),
         //'SignUp': (context) =>  SignUpPage(),
         'suksestopup': (context) => const SuksesTopup(),
         'confirmationpage': (context) => const ConfirmationPage(),
       },
-      initialRoute: '/', //halaman pertama yang akan ditampilkan deluan
+      initialRoute: 'SplashPage', //halaman pertama yang akan ditampilkan deluan
       //home: SuksesTopup(),
     );
   }
