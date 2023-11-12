@@ -3,4 +3,5 @@ UTS Pemrograman Mobile
 
 ini dina
 dina lagi
-ini chimaa
+ini chimaagi
+ini aku la
