@@ -1,11 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:main/auth.dart';
 import 'package:main/screens/confirmation_page.dart';
 import 'package:main/screens/signUp.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,8 +37,18 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPW = TextEditingController();
+  bool _loading = false;
+  final _formKey = GlobalKey<FormState>();
+  handleSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+    final email = _controllerEmail.value.text;
+    final password = _controllerPW.value.text;
+    setState(() => _loading = true);
+    await Auth().login(email, password);
+    setState(() => _loading = false);
+  }
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -161,50 +177,17 @@ class _SignInFormState extends State<SignInForm> {
                     width: 250,
                     height: 40,
                     child: ElevatedButton(
- onPressed: () {
-    FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _controllerEmail.text,
-      password: _controllerPW.text,
-    ).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ConfirmationPage(),
-        ),
-      );
-    }).onError((error, stackTrace) {
-      print("Error: $error"); // Cetak pesan kesalahan
-    });
-  },
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                            side: BorderSide(
-                              color: Color(0xFF8AB0AB),
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF8AB0AB)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 8, height: 8),
-                          Text(
-                            "Sign In",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
+                      onPressed: () => handleSubmit(),
+                      child: _loading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text("Submit"),
                     ),
                   ),
                   SizedBox(
