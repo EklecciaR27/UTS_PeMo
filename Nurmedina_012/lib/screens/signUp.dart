@@ -9,7 +9,7 @@ class SignUpPage extends StatefulWidget {
 
   final String title;
 
-  @override
+  @override 
   _SignUpPageState createState() => _SignUpPageState();
 }
 
@@ -18,6 +18,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPW = TextEditingController();
   final TextEditingController _controllerKonfirm = TextEditingController();
+
+  void dispose(){
+    _controllerFullName.dispose();
+    _controllerEmail.dispose();
+    _controllerPW.dispose();
+    _controllerKonfirm.dispose();
+    super.dispose();
+  }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference dataUser =

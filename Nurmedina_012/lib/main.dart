@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       // },
       // initialRoute:
       //     '/', //halaman pertama yang akan ditampilkan deluan
-      home: const ConfirmationPage(),
+      home: const SplashPage(),
     );
   }
 }

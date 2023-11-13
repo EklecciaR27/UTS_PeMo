@@ -161,71 +161,21 @@ class _SignInFormState extends State<SignInForm> {
                     width: 250,
                     height: 40,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        String email = _controllerEmail.text.trim();
-                        String password = _controllerPW.text.trim();
-
-                        if (email.isEmpty || password.isEmpty) {
-                          // Peringatkan pengguna jika email atau kata sandi kosong
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Peringatan'),
-                                content:
-                                    Text('Email dan kata sandi harus diisi.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                          return;
-                        }
-
-                        try {
-                          UserCredential userCredential =
-                              await _auth.signInWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ConfirmationPage(),
-                            ),
-                          );
-                        } on FirebaseAuthException catch (e) {
-                          print("FirebaseAuthException: ${e.message}");
-                          print("Kode FirebaseAuthException: ${e.code}");
-
-                          // Tindakan respons umum untuk kesalahan otentikasi
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Gagal Autentikasi'),
-                                content:
-                                    Text('Email atau kata sandi tidak valid.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
+ onPressed: () {
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _controllerEmail.text,
+      password: _controllerPW.text,
+    ).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ConfirmationPage(),
+        ),
+      );
+    }).onError((error, stackTrace) {
+      print("Error: $error"); // Cetak pesan kesalahan
+    });
+  },
                       style: ButtonStyle(
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
