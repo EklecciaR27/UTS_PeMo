@@ -38,6 +38,8 @@ dependencies:
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.0
   firebase_auth: ^4.13.0
+  google_fonts: ^6.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +84,17 @@ flutter:
   - assets/comedy.PNG
   - assets/action.PNG
   - assets/myName.jpg
+  - assets/user-avatar.png
+  - assets/wallet1.png
+  - assets/language.png
+  - assets/question.png
+  - assets/review.png
+  - assets/user-avatar2.png
+  - assets/wallet2.png
+  - assets/language2.png
+  - assets/question2.png
+  - assets/review2.png
+  - assets/Wallet Card.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
