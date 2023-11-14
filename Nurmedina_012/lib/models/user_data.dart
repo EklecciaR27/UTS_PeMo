@@ -1,19 +1,18 @@
-import 'package:flutter/material.dart';
 import 'dart:collection';
-
+import 'package:flutter/material.dart';
 import 'user.dart';
 
-class userData extends ChangeNotifier {
-  final List<User> _myUser = [
-   
-  ];
+class UserData extends ChangeNotifier {
+  final List<User> _myUsers = [];
+
+  UnmodifiableListView<User> get myUsers => UnmodifiableListView(_myUsers);
 
   int get userCount {
-    return _myUser.length;
+    return _myUsers.length;
   }
 
   void addUser(User newUser) {
-    _myUser.add(newUser);
+    _myUsers.add(newUser);
     notifyListeners();
   }
 }

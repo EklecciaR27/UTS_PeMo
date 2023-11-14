@@ -5,13 +5,13 @@ class User {
   String email = "";
   String password = "";
   String confirmPassword = "";
-   String? foto; // Menjadikan 'foto' opsional
+  Image foto ;
 
   User({
     required this.fullName,
     required this.email,
     required this.password,
     required this.confirmPassword,
-    this.foto, // Opsional karena menggunakan tanda tanya (?)
+    required this.foto,
   });
 }

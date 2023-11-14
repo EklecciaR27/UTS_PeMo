@@ -71,7 +71,7 @@ class _SplashPageState extends State<SplashPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          SignUpPage(title: 'Your Title Here'),
+                          Regis(),
                     ),
                   );
                 },
@@ -98,7 +98,7 @@ class _SplashPageState extends State<SplashPage> {
               child: TextButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignInPage()));
+                      MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: Text(
                   "Sign In to My Account",
