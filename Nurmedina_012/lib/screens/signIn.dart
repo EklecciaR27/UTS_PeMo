@@ -20,7 +20,7 @@ class _SignInPageState extends State<SignInPage> {
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: SignInForm(title: 'Input Review'),
+      home: const SignInForm(title: 'Input Review'),
     );
   }
 }
@@ -48,22 +48,22 @@ class _SignInFormState extends State<SignInForm> {
     setState(() => _loading = false);
   }
 
-  // FirebaseAuth _auth = FirebaseAuth.instance;
+  //FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
             width: 700,
             height: 900,
-            padding: EdgeInsets.only(left: 30, top: 20),
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
+            padding: const EdgeInsets.only(left: 30, top: 20),
+            margin: const EdgeInsets.only(bottom: 10),
+            child: const Text(
               "Welcome Back, \nto Flutix",
               style: TextStyle(
                 color: Color(0xFFC0CBAD),
@@ -79,7 +79,7 @@ class _SignInFormState extends State<SignInForm> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: Color(0xFF26413C),
+                color: const Color(0xFF26413C),
               ),
               width: 500,
               height: 900,
@@ -87,8 +87,8 @@ class _SignInFormState extends State<SignInForm> {
                 children: [
                   Positioned(
                     child: Container(
-                      margin: EdgeInsets.only(right: 230, top: 30),
-                      child: Text(
+                      margin: const EdgeInsets.only(right: 230, top: 30),
+                      child: const Text(
                         "Sign In",
                         style: TextStyle(
                           color: Color(0xFFC0CBAD),
@@ -98,7 +98,7 @@ class _SignInFormState extends State<SignInForm> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Container(
@@ -110,32 +110,32 @@ class _SignInFormState extends State<SignInForm> {
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0xFF8AB0AB),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.white,
                           ),
                         ),
                         labelText: "Email",
                         hintText: "Email",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
@@ -147,32 +147,32 @@ class _SignInFormState extends State<SignInForm> {
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0xFF8AB0AB),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.white,
                           ),
                         ),
                         labelText: "Password",
                         hintText: "Password",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   Container(
                     width: 250,
                     height: 40,
@@ -187,17 +187,17 @@ class _SignInFormState extends State<SignInForm> {
                                 strokeWidth: 2,
                               ),
                             )
-                          : Text("Submit"),
+                          : const Text("Submit"),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Don't Have an Account?",
                           style: TextStyle(
                             color: Color(0xFF8AB0AB),
@@ -210,13 +210,13 @@ class _SignInFormState extends State<SignInForm> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignUpPage(
+                                builder: (context) => const SignUpPage(
                                   title: 'Your Title Here',
                                 ),
                               ),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             "Sign Up",
                             style: TextStyle(
                               color: Colors.white,
