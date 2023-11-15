@@ -52,7 +52,7 @@ class Auth {
           email: userDoc.get('email'),
           password: '',
           confirmPassword: '',
-          foto: 'default_image_path', // Replace with your default image path
+          foto: 'default_image_path', 
       );
     } catch (e) {
       print('Login failed: $e');
@@ -77,11 +77,11 @@ Future<my_models.User?> getFullName() async {
     DocumentSnapshot userDoc = await _firestore.collection('users').doc(user!.uid).get();
 
     return my_models.User(
-      fullName: userDoc.get('fullName') as String? ?? '', // Use null-aware operator
+      fullName: userDoc.get('fullName') as String? ?? '', 
       email: user.email ?? '',
       password: '',
       confirmPassword: '',
-      foto: '', // You may need to get the 'foto' field if you have it in Firestore
+      foto: '', 
     );
   } catch (e) {
     print('Error getting full name: $e');

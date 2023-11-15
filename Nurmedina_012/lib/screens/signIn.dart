@@ -1,7 +1,7 @@
 // login.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:main/auth.dart'; // Import the Auth class
+import 'package:main/auth.dart'; 
 import 'confirmation_page.dart';
 import 'signUp.dart';
 import 'package:main/models/user.dart';
@@ -30,27 +30,19 @@ class _LoginState extends State<Login> {
   setState(() => _loading = true);
 
   try {
-    // Call the login method from Auth
     my_models.User? loggedInUser = await Auth().login(email, password);
 
     if (loggedInUser != null) {
-      // Display a SnackBar with the logged-in user's information
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Anda adalah: ${loggedInUser.fullName}'),
         ),
       );
-
-      // Optionally, you can perform other actions with the logged-in user
-
-      // Navigate to the next page after successful login
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ConfirmationPage()),
       );
     } else {
-      // Handle the case where the user is null (login failed)
-      // Display an error message using a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Failed to login. Please check your credentials."),
@@ -60,7 +52,6 @@ class _LoginState extends State<Login> {
   } catch (e) {
     print("Error: $e");
 
-    // Handle errors based on Firebase error codes
     String errorMessage = "Failed to login. Please check your credentials.";
 
     if (e is FirebaseAuthException) {
@@ -69,10 +60,8 @@ class _LoginState extends State<Login> {
       } else if (e.code == 'wrong-password') {
         errorMessage = 'Wrong password provided for that user.';
       }
-      // You can handle other error codes as needed
     }
 
-    // Display an error message using a SnackBar
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(errorMessage),
