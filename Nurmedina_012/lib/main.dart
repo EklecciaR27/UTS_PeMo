@@ -29,29 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue, //warna tema utama
       ),
-      // routes: {
-      //   '/': (context) => const selectCategory(),
-      //   'SplashPage': (context) =>
-      //       const SplashPage(), //akan menampilkan halaman splash
-      //   'SignIn': (context) => const SignInPage(),
-      //   //'SignUp': (context) =>  SignUpPage(),
-      //   'suksestopup': (context) => const SuksesTopup(),
-      //   'confirmationpage': (context) => const ConfirmationPage(),
-      // },
-      // initialRoute:
-      //     '/', //halaman pertama yang akan ditampilkan deluan
-      // home: const SplashPage()
-      // // StreamBuilder<User?>(
-      // //   stream: FirebaseAuth.instance.authStateChanges(),
-      // //   builder: (context, snapshot) {
-      // //     if (snapshot.hasData) {
-      // //       return const ConfirmationPage();
-      // //     } else {
-      // //       return const SignInPage();
-      // //     }
-      // //   },
-      // // ),
-      // );
+
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

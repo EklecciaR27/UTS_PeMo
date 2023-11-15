@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
+// models/user.dart
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class User {
   String fullName = "";
   String email = "";
   String password = "";
   String confirmPassword = "";
-  Image foto ;
+  String foto = "";
 
   User({
     required this.fullName,
@@ -14,4 +15,24 @@ class User {
     required this.confirmPassword,
     required this.foto,
   });
+
+  factory User.fromFirebaseUser(firebase_auth.User? firebaseUser) {
+    if (firebaseUser == null) {
+      return User(
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        foto: '', // Replace with your default image path
+      );
+    }
+
+    return User(
+      fullName: firebaseUser.displayName ?? '', // Adjust based on your needs
+      email: firebaseUser.email ?? '',
+      password: '',
+      confirmPassword: '',
+      foto: '', // Replace with your default image path
+    );
+  }
 }

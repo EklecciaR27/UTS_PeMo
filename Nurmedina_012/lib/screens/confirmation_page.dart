@@ -1,8 +1,11 @@
+// ignore_for_file: sized_box_for_whitespace, unused_import, annotate_overrides
+
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart';
 import '../widgets/bottom_nav.dart';
-import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
+import '../models/user.dart' as my_models;
+
 
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({super.key});
@@ -12,27 +15,26 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
-  String? fullName = '';
+String? fullName = '';
 
-  void initState() {
-    super.initState();
-    // Panggil fungsi getFullName setelah halaman diinisialisasi
-    fetchFullName();
-  }
+void initState() {
+  super.initState();
+  fetchFullName();
+}
 
-  // Fungsi untuk mendapatkan full name dan mengupdate state
-  void fetchFullName() async {
-    try {
-      String? userFullName = await Auth().getFullName();
-      if (userFullName != null) {
-        setState(() {
-          fullName = userFullName;
-        });
-      }
-    } catch (e) {
-      print('Error fetching full name: $e');
+// Fungsi untuk mendapatkan full name dan mengupdate state
+void fetchFullName() async {
+  try {
+    my_models.User? user = await Auth().getFullName();
+    if (user != null) {
+      setState(() {
+        fullName = user.fullName;
+      });
     }
+  } catch (e) {
+    print('Error fetching full name: $e');
   }
+}
 
   @override
   Widget build(BuildContext context) {
