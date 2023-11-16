@@ -1,4 +1,5 @@
 // login.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart'; 
 import 'confirmation_page.dart';
@@ -32,12 +33,14 @@ handleSubmit() async {
   try {
     // Menggunakan Provider.of untuk mendapatkan instance dari AuthProvider
     my_models.User? loggedInUser = await Provider.of<Auth>(context, listen: false).login(email, password);
+    
 
     if (loggedInUser != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Anda adalah: ${loggedInUser.fullName}'),
         ),
+
       );
 
       // Menggunakan Provider.of untuk mengakses UserDataProvider dan menambahkan user

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main/screens/home_movie_page.dart';
+import 'package:main/screens/topup.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -12,11 +13,12 @@ class _BottomNavState extends State<BottomNav> {
   int currentIndex = 0;
 List<Widget> menuBottomNav = [
   HomeMoviePage(),
-  const Icon(
-    Icons.category,
-    color: Color(0xFF1A1D1A),
-    size: 30, // Ukuran ikon
-  ),
+ TopupPage(),
+  // const Icon(
+  //   Icons.category,
+  //   color: Color(0xFF1A1D1A),
+  //   size: 30, // Ukuran ikon
+  // ),
   const Icon(
     Icons.category,
     color: Color(0xFF1A1D1A),

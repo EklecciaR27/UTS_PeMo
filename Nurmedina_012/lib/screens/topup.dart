@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:main/auth.dart';
 import 'package:main/models/topupAmount.dart';
 import 'package:main/models/user.dart';
+import 'package:main/models/user_data_provider.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart' as my_models;
 
 class TopupPage extends StatefulWidget {
-  const TopupPage({Key? key, required this.email}) : super(key: key);
-
-  final String? email; // Menggunakan tipe data String untuk email
+  const TopupPage({Key? key}) : super(key: key);
 
   @override
   _TopupPageState createState() => _TopupPageState();
@@ -14,12 +17,12 @@ class TopupPage extends StatefulWidget {
 
 class _TopupPageState extends State<TopupPage> {
   final TextEditingController _amountController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController(); // Menambahkan controller untuk field email
+  //final TextEditingController _emailController = TextEditingController(); // Menambahkan controller untuk field email
 
   @override
   void dispose() {
     _amountController.dispose();
-    _emailController.dispose(); // Memastikan untuk menghapus controller email
+    //_emailController.dispose(); // Memastikan untuk menghapus controller email
     super.dispose();
   }
 
@@ -27,12 +30,36 @@ class _TopupPageState extends State<TopupPage> {
     print('Amount : ${_amountController.text}');
   }
 
+  String email = '';
+
   void _submitTopup() {
     double nominal = double.parse(_amountController.text);
-    String email = _emailController.text; // Mengambil nilai dari controller email
+
+    void fetchEmail() async {
+      try {
+        // Menggunakan Provider.of untuk mendapatkan instance dari UserDataProvider
+        var userProvider =
+            Provider.of<UserDataProvider>(context, listen: false);
+        // Mengambil data pengguna dari UserDataProvider
+        var user = userProvider.myUsers.first;
+
+        if (user != null) {
+          setState(() {
+            email = user.email;
+          });
+        }
+      } catch (e) {
+        print('Error fetching email: $e');
+      }
+
+      void initState() {
+        super.initState();
+        fetchEmail();
+      }
+    }
 
     // Validasi agar tidak memasukkan data kosong ke Firestore
-    if (nominal > 0 && email.isNotEmpty) {
+    if (nominal > 0 && email != 0) {
       // Buat objek TopupAmount
       TopupAmount topupAmount = TopupAmount(
         nominal: nominal,
@@ -40,7 +67,9 @@ class _TopupPageState extends State<TopupPage> {
       );
 
       // Simpan data ke Firestore
-      FirebaseFirestore.instance.collection('topup_amount').add(topupAmount.toMap());
+      FirebaseFirestore.instance
+          .collection('topup_amount')
+          .add(topupAmount.toMap());
 
       // Tambahkan logika lain yang diperlukan setelah topup
     } else {
@@ -117,8 +146,7 @@ class _TopupPageState extends State<TopupPage> {
                 hintText: "IDR.",
                 hintStyle: TextStyle(color: Colors.grey),
                 labelText: "Amount",
-                labelStyle:
-                    TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
+                labelStyle: TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(193, 1, 143, 122),
@@ -152,31 +180,31 @@ class _TopupPageState extends State<TopupPage> {
               ],
             ),
           ),
-          SizedBox(
-            width: 300,
-            child: TextFormField(
-              decoration: InputDecoration(
-                hintText: "Email.",
-                hintStyle: TextStyle(color: Colors.grey),
-                labelText: "Email",
-                labelStyle:
-                    TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(193, 1, 143, 122),
-                    width: 1.0,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: const Color.fromARGB(255, 138, 176, 171),
-                    width: 1.0,
-                  ),
-                ),
-              ),
-              controller: _emailController,
-            ),
-          ),
+          // SizedBox(
+          //   width: 300,
+          //   child: TextFormField(
+          //     decoration: InputDecoration(
+          //       hintText: "Email.",
+          //       hintStyle: TextStyle(color: Colors.grey),
+          //       labelText: "Email",
+          //       labelStyle:
+          //           TextStyle(color: Color.fromARGB(193, 80, 81, 81)),
+          //       enabledBorder: UnderlineInputBorder(
+          //         borderSide: BorderSide(
+          //           color: Color.fromARGB(193, 1, 143, 122),
+          //           width: 1.0,
+          //         ),
+          //       ),
+          //       focusedBorder: UnderlineInputBorder(
+          //         borderSide: BorderSide(
+          //           color: const Color.fromARGB(255, 138, 176, 171),
+          //           width: 1.0,
+          //         ),
+          //       ),
+          //     ),
+          //     controller: _emailController,
+          //   ),
+          // ),
           SizedBox(
             height: 40,
             width: 140,

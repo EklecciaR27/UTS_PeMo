@@ -13,5 +13,6 @@ class UserDataProvider extends ChangeNotifier {
   void addUser(User newUser) {
     _myUsers.add(newUser);
     notifyListeners();
+    
   }
 }
