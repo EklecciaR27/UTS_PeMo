@@ -5,6 +5,8 @@ import 'package:main/auth.dart';
 import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
 import '../models/user.dart' as my_models;
+import 'package:provider/provider.dart';
+import 'package:main/models/user_data_provider.dart';
 
 
 class ConfirmationPage extends StatefulWidget {
@@ -22,19 +24,22 @@ void initState() {
   fetchFullName();
 }
 
-// Fungsi untuk mendapatkan full name dan mengupdate state
-void fetchFullName() async {
-  try {
-    my_models.User? user = await Auth().getFullName();
-    if (user != null) {
-      setState(() {
-        fullName = user.fullName;
-      });
+ void fetchFullName() async {
+    try {
+      // Menggunakan Provider.of untuk mendapatkan instance dari UserDataProvider
+      var userProvider = Provider.of<UserDataProvider>(context, listen: false);
+      // Mengambil data pengguna dari UserDataProvider
+      var user = userProvider.myUsers.first;
+
+      if (user != null) {
+        setState(() {
+          fullName = user.fullName;
+        });
+      }
+    } catch (e) {
+      print('Error fetching full name: $e');
     }
-  } catch (e) {
-    print('Error fetching full name: $e');
   }
-}
 
   @override
   Widget build(BuildContext context) {
