@@ -1,10 +1,10 @@
 // login.dart
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart'; 
 import 'confirmation_page.dart';
 import 'signUp.dart';
-import 'package:main/models/user.dart';
+import 'package:main/models/user_data_provider.dart';
+import 'package:provider/provider.dart';
 import '../models/user.dart' as my_models;
 
 
@@ -23,14 +23,15 @@ class _LoginState extends State<Login> {
   final TextEditingController _ctrlEmail = TextEditingController();
   final TextEditingController _ctrlPassword = TextEditingController();
 
- handleSubmit() async {
+handleSubmit() async {
   if (!_formKey.currentState!.validate()) return;
   final email = _ctrlEmail.value.text;
   final password = _ctrlPassword.value.text;
   setState(() => _loading = true);
 
   try {
-    my_models.User? loggedInUser = await Auth().login(email, password);
+    // Menggunakan Provider.of untuk mendapatkan instance dari AuthProvider
+    my_models.User? loggedInUser = await Provider.of<Auth>(context, listen: false).login(email, password);
 
     if (loggedInUser != null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -38,6 +39,11 @@ class _LoginState extends State<Login> {
           content: Text('Anda adalah: ${loggedInUser.fullName}'),
         ),
       );
+
+      // Menggunakan Provider.of untuk mengakses UserDataProvider dan menambahkan user
+      Provider.of<UserDataProvider>(context, listen: false).addUser(loggedInUser);
+
+      // Navigasi ke halaman konfirmasi atau halaman lain yang sesuai
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ConfirmationPage()),
@@ -54,13 +60,7 @@ class _LoginState extends State<Login> {
 
     String errorMessage = "Failed to login. Please check your credentials.";
 
-    if (e is FirebaseAuthException) {
-      if (e.code == 'user-not-found') {
-        errorMessage = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        errorMessage = 'Wrong password provided for that user.';
-      }
-    }
+    // ...
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -71,6 +71,8 @@ class _LoginState extends State<Login> {
     setState(() => _loading = false);
   }
 }
+
+
 
 
   @override
