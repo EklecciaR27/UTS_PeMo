@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart';
 import 'package:main/models/user.dart';
-import 'package:main/models/user_data.dart';
+import 'package:main/models/user_data_provider.dart';
+import 'package:provider/provider.dart';
 import 'signIn.dart';
 
 class Regis extends StatefulWidget {
@@ -24,7 +25,7 @@ class _RegisState extends State<Regis> {
 
   Auth _auth = Auth(); // Create an instance of the Auth class
 
-  handleSubmit() async {
+ handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
     final fullName = _ctrlFullName.value.text;
@@ -51,11 +52,11 @@ class _RegisState extends State<Regis> {
         email: email,
         password: password,
         confirmPassword: confirmPassword,
-        foto: 'Nanti' // Placeholder value
+        foto: 'Nanti', // Placeholder value
       );
 
-      // Add the new user to the UserData
-      UserData().addUser(newUser);
+      // Add the new user to the UserData using Provider
+      Provider.of<UserDataProvider>(context, listen: false).addUser(newUser);
 
       // After successful registration, you can perform other actions here
     } catch (e) {
@@ -66,7 +67,6 @@ class _RegisState extends State<Regis> {
       setState(() => _loading = false);
     }
   }
-
 
 
   @override

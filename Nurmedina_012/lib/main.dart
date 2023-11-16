@@ -1,42 +1,48 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:main/auth.dart';
 import 'package:main/firebase_options.dart';
-import 'package:main/screens/selectJadwal.dart';
+import 'package:main/models/user_data_provider.dart';
 import 'package:main/screens/signIn.dart';
 import 'package:main/screens/signUp.dart';
-import 'package:main/screens/splashPage.dart';
-import 'package:main/screens/suksescheckout.dart';
 
-import 'screens/confirmation_page.dart';
-
-import 'screens/confirmation_page.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Auth()), // Provider for authentication
+        ChangeNotifierProvider(create: (_) => UserDataProvider()), // Provider for user data
+      ],
+      child: MyApp(),
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false, //non aktifkan banner debug
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue, //warna tema utama
+        primarySwatch: Colors.blue,
       ),
-
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Regis();
+            return Regis(); // Replace with the appropriate widget for authenticated users
           } else {
-            return Login();
+            return Login(); // Replace with the appropriate widget for non-authenticated users
           }
         },
       ),
