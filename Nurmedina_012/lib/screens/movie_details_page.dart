@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main/screens/selectJadwal.dart';
 import '../models/movies.dart';
-import 'home_movie_page.dart';
 
 class MovieDetailsPage extends StatelessWidget {
   final Movies movie;

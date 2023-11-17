@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart';
+import 'package:main/models/topupAmount.dart';
+import 'package:main/models/topup_amount_data.dart';
+import 'package:main/models/user_data.dart';
 import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
-import '../models/user.dart' as my_models;
 import 'package:provider/provider.dart';
-import 'package:main/models/user_data_provider.dart';
 
 
 class ConfirmationPage extends StatefulWidget {
@@ -26,9 +27,7 @@ void initState() {
 
  void fetchFullName() async {
     try {
-      // Menggunakan Provider.of untuk mendapatkan instance dari UserDataProvider
-      var userProvider = Provider.of<UserDataProvider>(context, listen: false);
-      // Mengambil data pengguna dari UserDataProvider
+      var userProvider = Provider.of<UserData>(context, listen: false);
       var user = userProvider.myUsers.first;
 
       if (user != null) {

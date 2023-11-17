@@ -1,9 +1,15 @@
+// ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:main/models/movie_category.dart';
+import 'package:provider/provider.dart';
 import '../models/movie_category_data.dart';
 import '../models/movies_data.dart';
+import '../models/topup_amount_data.dart';
+import '../models/topup_service.dart';
+import '../models/user_data.dart';
 import '../widgets/movie_category_tile.dart';
 import '../widgets/movies_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
@@ -13,11 +19,23 @@ class HomeMoviePage extends StatefulWidget {
 }
 
 class _HomeMoviePageState extends State<HomeMoviePage> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  late TopupService _topupService;
+  // late UserService _userService;
+
+  String? fullName = '';
+  double? nominal = 0.0;
+
+  int currentIndex = 0;
   MovieCategory? selectedCategory;
+
   @override
   void initState() {
     super.initState();
+    _topupService = TopupService();
+    //  _userService = UserService();
     selectedCategory = null;
+    fetchData(); // Combine both fetching operations in a new method
   }
 
   void onCategorySelected(bool isSelected, MovieCategory category) {
@@ -32,9 +50,45 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     }
   }
 
-  int currentIndex = 0; // penentu icon aktif bottom navigation bar
+  void fetchData() async {
+    fetchFullName();
+    fetchNominalTopUp();
+  }
 
-  // list menampung semua tujuan bottom navigation bar
+  void fetchFullName() async {
+    try {
+      var userProvider = Provider.of<UserData>(context, listen: false);
+      var user = userProvider.myUsers.first;
+
+      if (user != null) {
+        setState(() {
+          fullName = user.fullName;
+        });
+      }
+    } catch (e) {
+      print('Error fetching full name: $e');
+    }
+  }
+
+  void fetchNominalTopUp() async {
+    try {
+      var user = _auth.currentUser;
+      var email = user?.email ?? '';
+
+      var topUp = await _topupService.getNominalTopUp(email);
+
+      if (topUp != null) {
+        // Access TopupData using Provider to update state
+        Provider.of<TopupData>(context, listen: false).updateTopUp(topUp);
+
+        setState(() {
+          nominal = topUp.nominal;
+        });
+      }
+    } catch (e) {
+      print('Error fetching top-up amount: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +132,8 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                             child: Container(
                               height: 27,
                               width: lebar - 130,
-                              child: const Text(
-                                'Refal Hady', // teks
+                              child: Text(
+                                '$fullName',
                                 style: TextStyle(
                                   fontSize: 20, // ukuran teks
                                   color: Color(0xFF8AB0AB),
@@ -95,8 +149,8 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                             child: Container(
                               height: 25,
                               width: lebar - 130,
-                              child: const Text(
-                                'IDR 300.000', // teks
+                              child: Text(
+                                '$nominal',
                                 style: TextStyle(
                                   fontSize: 18, // ukuran teks
                                   color: Color(0xFFC0CAAD),

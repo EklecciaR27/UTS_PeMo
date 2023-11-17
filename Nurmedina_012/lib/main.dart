@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart';
 import 'package:main/firebase_options.dart';
-import 'package:main/models/user_data_provider.dart';
+import 'package:main/models/topup_amount_data.dart';
+import 'package:main/models/user_data.dart';
 import 'package:main/screens/signIn.dart';
 import 'package:main/screens/signUp.dart';
 
@@ -19,7 +20,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Auth()), // Provider for authentication
-        ChangeNotifierProvider(create: (_) => UserDataProvider()), // Provider for user data
+        ChangeNotifierProvider(create: (_) => UserData()), // Provider for user data
+        ChangeNotifierProvider(create: (_) => TopupData()), // Provider for user data
       ],
       child: MyApp(),
     ),

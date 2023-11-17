@@ -1,10 +1,11 @@
 // login.dart
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:main/auth.dart'; 
+import 'package:main/auth.dart';
+import 'package:main/models/user_data.dart'; 
 import 'confirmation_page.dart';
 import 'signUp.dart';
-import 'package:main/models/user_data_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart' as my_models;
 
@@ -44,7 +45,7 @@ handleSubmit() async {
       );
 
       // Menggunakan Provider.of untuk mengakses UserDataProvider dan menambahkan user
-      Provider.of<UserDataProvider>(context, listen: false).addUser(loggedInUser);
+      Provider.of<UserData>(context, listen: false).addUser(loggedInUser);
 
       // Navigasi ke halaman konfirmasi atau halaman lain yang sesuai
       Navigator.push(
@@ -53,7 +54,7 @@ handleSubmit() async {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Failed to login. Please check your credentials."),
         ),
       );

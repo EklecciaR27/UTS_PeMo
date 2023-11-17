@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:main/auth.dart';
 import 'package:main/models/user.dart';
-import 'package:main/models/user_data_provider.dart';
+import 'package:main/models/user_data.dart';
 import 'package:provider/provider.dart';
 import 'signIn.dart';
 
@@ -56,7 +56,7 @@ class _RegisState extends State<Regis> {
       );
 
       // Add the new user to the UserData using Provider
-      Provider.of<UserDataProvider>(context, listen: false).addUser(newUser);
+      Provider.of<UserData>(context, listen: false).addUser(newUser);
 
       // After successful registration, you can perform other actions here
     } catch (e) {
