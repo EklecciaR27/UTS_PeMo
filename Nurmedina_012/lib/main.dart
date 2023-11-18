@@ -42,9 +42,9 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Regis(); // Replace with the appropriate widget for authenticated users
+            return Login(); // Replace with the appropriate widget for authenticated users
           } else {
-            return Login(); // Replace with the appropriate widget for non-authenticated users
+            return Regis(); // Replace with the appropriate widget for non-authenticated users
           }
         },
       ),
