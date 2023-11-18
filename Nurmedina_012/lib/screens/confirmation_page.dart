@@ -9,7 +9,6 @@ import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
 import 'package:provider/provider.dart';
 
-
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({super.key});
 
@@ -18,14 +17,14 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
-String? fullName = '';
+  String? fullName = '';
 
-void initState() {
-  super.initState();
-  fetchFullName();
-}
+  void initState() {
+    super.initState();
+    fetchFullName();
+  }
 
- void fetchFullName() async {
+  void fetchFullName() async {
     try {
       var userProvider = Provider.of<UserData>(context, listen: false);
       var user = userProvider.myUsers.first;

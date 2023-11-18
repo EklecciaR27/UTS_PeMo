@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:main/models/selectSeatsModel.dart';
 import 'package:main/screens/ticket_details.dart';
+import 'package:provider/provider.dart';
 
 class SelectSeat extends StatefulWidget {
   const SelectSeat({Key? key}) : super(key: key);
@@ -10,9 +12,13 @@ class SelectSeat extends StatefulWidget {
 
 class _SelectSeatState extends State<SelectSeat> {
   bool isContainerVisible = false;
+  List<String> selectedSeats = [];
 
   @override
   Widget build(BuildContext context) {
+    final selectedSeatsModel =
+        Provider.of<SelectedSeatsModel>(context, listen: false);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 26, 29, 26),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -51,6 +57,297 @@ class _SelectSeatState extends State<SelectSeat> {
           color: Color.fromARGB(255, 255, 255, 255),
           indent: 80, // Jarak piksel di awal garis (start)
           endIndent: 80, // Atur warna sesuai kebutuhan
+        ),
+        Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'F${index + 1}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'E${index + 1}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'D${index + 1}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'C${index + 1}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'B${index + 1}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'A${index + 1}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  const SizedBox(height: 20),
+                  // Text(
+                  //   selectedSeats.isEmpty
+                  //       ? 'Belum ada kursi yang dipilih'
+                  //       : 'Kursi yang dipilih: ${selectedSeats.join(', ')}',
+                  //   style: const TextStyle(fontSize: 18),
+                  // ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'F${index + 5}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'E${index + 5}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'D${index + 5}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'C${index + 5}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'B${index + 5}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  Consumer<SelectedSeatsModel>(
+                      builder: (context, selectedSeatsModel, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: List.generate(4, (index) {
+                        final seat = 'A${index + 5}';
+                        final isSeatSelected =
+                            selectedSeatsModel.selectedSeats.contains(seat);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (isSeatSelected) {
+                              selectedSeatsModel.removeSelectedSeat(seat);
+                            } else {
+                              selectedSeatsModel.addSelectedSeat(seat);
+                            }
+                          },
+                          child: buildSeat(seat, isSeatSelected),
+                        );
+                      }),
+                    );
+                  }),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
         ),
         Container(
           child: Row(
@@ -277,9 +574,9 @@ class _SelectSeatState extends State<SelectSeat> {
                             color: const Color(0xFF8AB0AB),
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
-                          child: const Text(
-                            'xxx',
-                            style: TextStyle(
+                          child: Text(
+                            "${selectedSeatsModel.selectedSeats.join(', ')}",
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
                             ),
@@ -334,6 +631,41 @@ class _SelectSeatState extends State<SelectSeat> {
           ),
         ),
       ]),
+    );
+  }
+
+  Widget buildSeat(String seatNumber, bool isSeatSelected) {
+    final selectedSeatsModel =
+        Provider.of<SelectedSeatsModel>(context, listen: false);
+    return InkWell(
+      onTap: () {
+        if (isSeatSelected) {
+          selectedSeatsModel.removeSelectedSeat(seatNumber);
+        } else {
+          selectedSeatsModel.addSelectedSeat(seatNumber);
+        }
+      },
+      child: Container(
+        width: 20,
+        height: 20,
+        margin: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: isSeatSelected
+              ? const Color(0xFF8AB0AB)
+              : const Color.fromARGB(255, 26, 29, 26),
+          border: Border.all(color: Color.fromARGB(255, 255, 255, 255)),
+        ),
+        child: Center(
+          child: Text(
+            seatNumber,
+            style: const TextStyle(
+              color: const Color.fromARGB(255, 26, 29, 26),
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:main/models/selectSeatsModel.dart';
 import 'package:main/screens/select_seat.dart';
+import 'package:provider/provider.dart';
 
 class detailsTiket extends StatefulWidget {
   const detailsTiket({super.key});
@@ -9,8 +11,12 @@ class detailsTiket extends StatefulWidget {
 }
 
 class _detailsTiketState extends State<detailsTiket> {
+  //get selectedSeats => null;
+
   @override
   Widget build(BuildContext context) {
+    final selectedSeatsModel = Provider.of<SelectedSeatsModel>(context);
+
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 26, 29, 26),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -176,10 +182,10 @@ class _detailsTiketState extends State<detailsTiket> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(145, 10, 0, 0),
-                      child: const Text(
-                        "xxxxxx",
-                        style: TextStyle(
-                            fontSize: 20,
+                      child: Text(
+                        "${selectedSeatsModel.selectedSeats.join(',')}",
+                        style: const TextStyle(
+                            fontSize: 15,
                             color: Color.fromARGB(255, 192, 203, 173)),
                       ),
                     )
