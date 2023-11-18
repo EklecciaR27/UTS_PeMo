@@ -18,20 +18,4 @@ class TopupAmount {
       'fullName': fullName,
     };
   }
-
-  // factory TopupAmount.fromFirebaseUser(firebase_auth.User? firebaseUser) {
-  //   if (firebaseUser == null) {
-  //     return TopupAmount(
-  //       nominal: 0.0,
-  //       email: '',
-  //       fullName: '',
-  //     );
-  //   }
-
-  //   return TopupAmount(
-  //     nominal: 0.0, // You may need to adjust this based on your needs
-  //     email: firebaseUser.email ?? '',
-  //     fullName: firebaseUser.displayName ?? '',
-  //   );
-  // }
 }
