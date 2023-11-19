@@ -161,8 +161,8 @@ class _detailsTiketState extends State<detailsTiket> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(110, 10, 0, 0),
                       child: Text(
-                        '${jadwalProvider.selectedTime!.tanggal} - ${jadwalProvider.selectedTime!.hari}',
-                        style: TextStyle(
+                        '${jadwalProvider.selectedTime!.hari}, ${jadwalProvider.selectedTime!.tanggal}',
+                        style: const TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),
                       ),
@@ -174,7 +174,7 @@ class _detailsTiketState extends State<detailsTiket> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
                       child: const Text(
-                        "2 Tickets",
+                        "Tickets",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),

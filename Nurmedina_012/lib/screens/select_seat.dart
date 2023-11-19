@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main/models/selectSeatsModel.dart';
+import 'package:main/screens/selectJadwal.dart';
 import 'package:main/screens/ticket_details.dart';
 import 'package:provider/provider.dart';
 
@@ -29,24 +30,30 @@ class _SelectSeatState extends State<SelectSeat> {
             InkWell(
               onTap: () {
                 // Menangani klik pada ikon "arrow_back"
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    // Gantilah MyDestinationScreen dengan halaman tujuan yang sesuai
+                    return const selectCategory();
+                  }),
+                );
               },
               child: Container(
-                padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
+                padding: const EdgeInsets.fromLTRB(15, 50, 5, 0),
                 child: const Icon(
                   Icons.arrow_back,
                   size: 30,
-                  color: Color.fromARGB(255, 192, 203, 173),
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(17, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(17, 50, 0, 0),
               child: const Text(
                 "Select Seat",
                 style: TextStyle(
                   fontSize: 20,
-                  color: Color.fromARGB(255, 192, 203, 173),
+                  color: Color.fromARGB(255, 255, 255, 255),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -63,7 +70,7 @@ class _SelectSeatState extends State<SelectSeat> {
         Row(
           children: [
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+              margin: const EdgeInsets.fromLTRB(35, 30, 30, 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -210,6 +217,7 @@ class _SelectSeatState extends State<SelectSeat> {
               ),
             ),
             Container(
+              margin: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -345,7 +353,7 @@ class _SelectSeatState extends State<SelectSeat> {
                       }),
                     );
                   }),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -378,9 +386,11 @@ class _SelectSeatState extends State<SelectSeat> {
                 margin: const EdgeInsets.fromLTRB(30, 10, 5, 0),
                 width: 8, // Sesuaikan ukuran Container
                 height: 8, // Sesuaikan ukuran Container
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle, // Membuat Container menjadi lingkaran
-                  color: Color(0xFF8AB0AB),
+                  color: Color.fromARGB(163, 191, 194, 194),
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 255, 255, 255)),
                 ),
               ),
               Container(
@@ -398,9 +408,11 @@ class _SelectSeatState extends State<SelectSeat> {
                 margin: const EdgeInsets.fromLTRB(35, 10, 10, 0),
                 width: 8, // Sesuaikan ukuran Container
                 height: 8, // Sesuaikan ukuran Container
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle, // Membuat Container menjadi lingkaran
-                  color: Color(0xFF8AB0AB),
+                  //color: Color(0xFF8AB0AB),
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 255, 255, 255)),
                 ),
               ),
               Container(
@@ -547,10 +559,11 @@ class _SelectSeatState extends State<SelectSeat> {
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
                           child: Text(
-                            '${jadwalProvider.selectedTime!.tanggal} - ${jadwalProvider.selectedTime!.hari} ',
+                            '${jadwalProvider.selectedTime!.hari}, ${jadwalProvider.selectedTime!.tanggal} ',
                             style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -566,6 +579,7 @@ class _SelectSeatState extends State<SelectSeat> {
                             style: TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -577,10 +591,11 @@ class _SelectSeatState extends State<SelectSeat> {
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
                           child: Text(
-                            "${selectedSeatsModel.selectedSeats.join(', ')}",
+                            "${selectedSeatsModel.selectedSeats.join(', ')} SEAT",
                             style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -596,6 +611,7 @@ class _SelectSeatState extends State<SelectSeat> {
                             style: TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

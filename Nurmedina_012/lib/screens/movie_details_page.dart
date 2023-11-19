@@ -31,7 +31,8 @@ class MovieDetailsPage extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 30), // memberi jarak
+                  padding:
+                      const EdgeInsets.only(left: 10, top: 30), // memberi jarak
                   child: IconButton(
                     icon: const Icon(
                       Icons.arrow_back_outlined, // icon arrow back
@@ -170,19 +171,19 @@ class MovieDetailsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                              movie.category,
-                              style: const TextStyle(
-                                color: Color(0xFFC0CAAD),
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            movie.category,
+                            style: const TextStyle(
+                              color: Color(0xFFC0CAAD),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const Text(
-                              'Type',
-                              style: TextStyle(
-                                color: Color(0xFFC0CAAD),
-                                fontSize: 13,
-                              ),
+                            'Type',
+                            style: TextStyle(
+                              color: Color(0xFFC0CAAD),
+                              fontSize: 13,
+                            ),
                           ),
                         ],
                       ),
@@ -309,7 +310,8 @@ class MovieDetailsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 4, right: 200),
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 4, right: 200),
                           child: Container(
                             height: 27,
                             width: 130,
@@ -319,14 +321,13 @@ class MovieDetailsPage extends StatelessWidget {
                                 fontSize: 18, // ukuran teks
                                 color: Color(0xFF8AB0AB),
                                 fontWeight:
-                                FontWeight.bold, // membuat teks tebal
+                                    FontWeight.bold, // membuat teks tebal
                               ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding:
-                          const EdgeInsets.only(left: 20, bottom: 4),
+                          padding: const EdgeInsets.only(left: 20, bottom: 4),
                           child: Container(
                             height: 25,
                             width: double.infinity,
@@ -371,7 +372,8 @@ class MovieDetailsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 4, right: 200),
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 4, right: 200),
                           child: Container(
                             height: 27,
                             width: 130,
@@ -381,14 +383,13 @@ class MovieDetailsPage extends StatelessWidget {
                                 fontSize: 18, // ukuran teks
                                 color: Color(0xFF8AB0AB),
                                 fontWeight:
-                                FontWeight.bold, // membuat teks tebal
+                                    FontWeight.bold, // membuat teks tebal
                               ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding:
-                          const EdgeInsets.only(left: 20, bottom: 4),
+                          padding: const EdgeInsets.only(left: 20, bottom: 4),
                           child: Container(
                             height: 25,
                             width: double.infinity,
@@ -409,19 +410,25 @@ class MovieDetailsPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 50, bottom: 50), // jarak atas
-              child: ElevatedButton( // menggunakan elevated button
+              child: ElevatedButton(
+                // menggunakan elevated button
                 onPressed: () {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => selectCategory()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => selectCategory()));
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, // warna teks button
-                  backgroundColor: const Color(0xFF89B0AB), // warna latar belakang button
+                  backgroundColor:
+                      const Color(0xFF89B0AB), // warna latar belakang button
                   textStyle: const TextStyle(
-                    fontSize: 18,  // ukuran teks
+                    fontSize: 18, // ukuran teks
                   ),
                   fixedSize: const Size(230, 40), // ukuran button
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // ketumpulan sudut button
+                    borderRadius:
+                        BorderRadius.circular(10), // ketumpulan sudut button
                   ),
                 ),
                 child: const Text('Continue to Book'), // teks didalam button

@@ -355,7 +355,8 @@ class CategoriTimesTile extends StatelessWidget {
             child: Center(
               child: Text(
                 catTimes.tanggal,
-                style: const TextStyle(fontSize: 20), // Ukuran ikon
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold), // Ukuran ikon
               ),
             ),
           ),
