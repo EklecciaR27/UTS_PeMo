@@ -3,6 +3,8 @@ import 'package:main/models/selectSeatsModel.dart';
 import 'package:main/screens/ticket_details.dart';
 import 'package:provider/provider.dart';
 
+import '../models/jadwal_data.dart';
+
 class SelectSeat extends StatefulWidget {
   const SelectSeat({Key? key}) : super(key: key);
 
@@ -18,7 +20,7 @@ class _SelectSeatState extends State<SelectSeat> {
   Widget build(BuildContext context) {
     final selectedSeatsModel =
         Provider.of<SelectedSeatsModel>(context, listen: false);
-
+    final jadwalProvider = Provider.of<JadwalProvider>(context);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 26, 29, 26),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -343,7 +345,7 @@ class _SelectSeatState extends State<SelectSeat> {
                       }),
                     );
                   }),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -544,9 +546,9 @@ class _SelectSeatState extends State<SelectSeat> {
                             color: const Color(0xFF8AB0AB),
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
-                          child: const Text(
-                            'xxx',
-                            style: TextStyle(
+                          child: Text(
+                            '${jadwalProvider.selectedTime!.tanggal} - ${jadwalProvider.selectedTime!.hari} ',
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
                             ),
@@ -653,7 +655,7 @@ class _SelectSeatState extends State<SelectSeat> {
           color: isSeatSelected
               ? const Color(0xFF8AB0AB)
               : const Color.fromARGB(255, 26, 29, 26),
-          border: Border.all(color: Color.fromARGB(255, 255, 255, 255)),
+          border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
         ),
         child: Center(
           child: Text(

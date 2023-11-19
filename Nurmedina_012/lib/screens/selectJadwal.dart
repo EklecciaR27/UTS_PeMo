@@ -4,6 +4,7 @@ import 'package:main/models/jadwal_data.dart';
 import 'package:main/models/place.dart';
 import 'package:main/models/place_data.dart';
 import 'package:main/screens/select_seat.dart';
+import 'package:provider/provider.dart';
 
 class selectCategory extends StatefulWidget {
   const selectCategory({super.key});
@@ -15,6 +16,8 @@ class selectCategory extends StatefulWidget {
 class _selectCategoryState extends State<selectCategory> {
   @override
   Widget build(BuildContext context) {
+    final jadwalProvider = Provider.of<JadwalProvider>(context);
+
     var lebar = MediaQuery.of(context).size.width;
     var tinggi = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -40,11 +43,17 @@ class _selectCategoryState extends State<selectCategory> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.only(top: 5),
-              itemCount: timesCategory.length,
+              itemCount: jadwalProvider.timesCategory.length,
               itemBuilder: (_, i) {
                 return Container(
                   padding: const EdgeInsets.only(left: 20),
-                  child: CategoriTimesTile(catTimes: timesCategory[i]),
+                  child: GestureDetector(
+                    onTap: () {
+                      jadwalProvider.toggleSelectedTime(i);
+                    },
+                    child: CategoriTimesTile(
+                        catTimes: jadwalProvider.timesCategory[i]),
+                  ),
                 );
               },
             ),
@@ -315,12 +324,22 @@ class CategoriTimesTile extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  // bool isSelected = false;
+
+  // void toggleSelection() {
+  //   setState(() {
+  //     // Toggle nilai isSelected
+  //     isSelected = !isSelected;
+  //   });
+  // }
+
   Widget build(BuildContext context) {
     return Container(
-      width: 70, // Sesuaikan ukuran Container
+      width: 70,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50), // Radius gambar
+        borderRadius: BorderRadius.circular(50),
         color: const Color(0xFF3E505B),
+        // Gunakan kondisi isSelected untuk menentukan warna
       ),
       padding: const EdgeInsets.all(
           10), // Tambahkan padding ke konten dalam Container

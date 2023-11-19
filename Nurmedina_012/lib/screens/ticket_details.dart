@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main/models/jadwal_data.dart';
 import 'package:main/models/selectSeatsModel.dart';
 import 'package:main/screens/select_seat.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +12,10 @@ class detailsTiket extends StatefulWidget {
 }
 
 class _detailsTiketState extends State<detailsTiket> {
-  //get selectedSeats => null;
-
   @override
   Widget build(BuildContext context) {
     final selectedSeatsModel = Provider.of<SelectedSeatsModel>(context);
+    final jadwalProvider = Provider.of<JadwalProvider>(context);
 
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 26, 29, 26),
@@ -160,8 +160,8 @@ class _detailsTiketState extends State<detailsTiket> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(110, 10, 0, 0),
-                      child: const Text(
-                        "xxxxxx",
+                      child: Text(
+                        '${jadwalProvider.selectedTime!.tanggal} - ${jadwalProvider.selectedTime!.hari}',
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),
