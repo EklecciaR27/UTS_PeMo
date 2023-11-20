@@ -1,6 +1,6 @@
-import 'package:flutix/ticketsdetail.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutix/mytickets.dart';
+import 'package:main/screens/ticketsdetail.dart';
 
 class MyTicketsActive extends StatelessWidget {
   const MyTicketsActive({Key? key});

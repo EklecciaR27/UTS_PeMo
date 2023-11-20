@@ -1,6 +1,6 @@
-import 'package:flutix/ticketsdetail.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutix/mytickets.dart';
+import 'package:main/screens/ticketsdetail.dart';
 
 class MyTicketsHistory extends StatelessWidget {
   const MyTicketsHistory({super.key});
@@ -67,7 +67,7 @@ class MyTicketItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => TicketsDetail(
-                      title: title, // Gunakan informasi dari tiket yang diklik
+                      title: title, 
                       cinema: cinema,
                       date: date,
                       time: time,
