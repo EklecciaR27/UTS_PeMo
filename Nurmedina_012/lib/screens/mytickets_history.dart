@@ -22,8 +22,8 @@ class MyTicketsHistory extends StatelessWidget {
                 // mytickets1
                 MyTicketItem(
                   imagePath: 'assets/posterFilm4.jpg',
-                  title: 'THE MARVEL',
-                  cinema: 'XXI Samarinda Square',
+                  title: 'MARVEL',
+                  cinema: 'XXI City Centrum',
                   date: '01.11.2023',
                   time: '21.00',
                   topPosition: 15,

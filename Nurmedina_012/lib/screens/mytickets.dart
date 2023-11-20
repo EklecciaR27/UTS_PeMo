@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:main/screens/mytickets_active.dart';
+import 'package:main/screens/mytickets_history.dart';
 
 class MyTickets extends StatelessWidget {
   const MyTickets({super.key});
@@ -27,9 +29,8 @@ class MyTickets extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            Icon(Icons.flight, size: 350),
-            Icon(Icons.directions_transit, size: 350),
-            Icon(Icons.directions_car, size: 350),
+            MyTicketsActive(),
+            MyTicketsHistory(),
           ],
         ),
       ),

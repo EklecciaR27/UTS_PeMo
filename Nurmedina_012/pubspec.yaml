@@ -96,6 +96,9 @@ flutter:
   - assets/question2.png
   - assets/review2.png
   - assets/Wallet Card.png
+  - assets/barcode.png
+  - assets/clock.png
+  - assets/location.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

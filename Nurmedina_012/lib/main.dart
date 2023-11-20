@@ -49,17 +49,17 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const selectCategory()
-        //     StreamBuilder<User?>(
-        //   stream: FirebaseAuth.instance.authStateChanges(),
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasData) {
-        //       return Login(); // Replace with the appropriate widget for authenticated users
-        //     } else {
-        //       return Regis(); // Replace with the appropriate widget for non-authenticated users
-        //     }
-        //   },
-        // ),
+        home: 
+            StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Login(); // Replace with the appropriate widget for authenticated users
+            } else {
+              return Regis(); // Replace with the appropriate widget for non-authenticated users
+            }
+          },
+        ),
         );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class TicketsDetail extends StatelessWidget {
-
   final String title;
   final String cinema;
   final String date;
@@ -18,7 +17,7 @@ class TicketsDetail extends StatelessWidget {
 
   //const TicketsDetail({super.key});
 
-   @override
+  @override
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,6 +43,7 @@ class TicketsDetail extends StatelessWidget {
                   ),
                 ),
               ),
+
               Positioned(
                 left: 128,
                 top: 50,
@@ -54,7 +54,6 @@ class TicketsDetail extends StatelessWidget {
                     fontSize: 30,
                     decoration: TextDecoration.none,
                   ),
-                  
                 ),
               ),
               //posisi back
@@ -69,10 +68,15 @@ class TicketsDetail extends StatelessWidget {
                       Positioned(
                         left: 0,
                         top: 0,
-                        child: Container(
-                          width: 34,
-                          height: 34,
-                          decoration: BoxDecoration(color: Colors.black),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_outlined, // icon arrow back
+                            size: 35, // ukuran icon
+                            color: Colors.white, // warna icon
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
                     ],
@@ -153,68 +157,65 @@ class TicketsDetail extends StatelessWidget {
                 ),
               ),
 
-
-
-
               // studio dan jam
-                Positioned(
+              Positioned(
                 left: 85,
                 top: 465,
                 child: Row(
                   children: [
-                     Container(
-                    width: 20,
-                    height: 20,
-                     decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/location.png'),
-                      fit: BoxFit.fill,
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/location.png'),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
-                  ),
-                  ),
-                  SizedBox(width: 10,),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
-                    cinema,
-                    style: TextStyle(
-                      color: Color(0xFF26413C),
-                      fontSize: 20,
-                      decoration: TextDecoration.none,
+                      cinema,
+                      style: TextStyle(
+                        color: Color(0xFF26413C),
+                        fontSize: 20,
+                        decoration: TextDecoration.none,
+                      ),
                     ),
-                  ),
-                 
                   ],
                 ),
               ),
-             Positioned(
+              Positioned(
                 left: 85,
                 top: 485,
                 child: Row(
                   children: [
-                     Container(
-                    width: 20,
-                    height: 20,
-                     decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/clock.png'),
-                      fit: BoxFit.fill,
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/clock.png'),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
-                  ),
-                  ),
-                  SizedBox(width: 10,),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
-                    time,
-                    style: TextStyle(
-                      color: Color(0xFF26413C),
-                      fontSize: 20,
-                      decoration: TextDecoration.none,
+                      time,
+                      style: TextStyle(
+                        color: Color(0xFF26413C),
+                        fontSize: 20,
+                        decoration: TextDecoration.none,
+                      ),
                     ),
-                  ),
-                 
                   ],
                 ),
               ),
-              
-              
 
               Positioned(
                 left: 80,
@@ -289,7 +290,7 @@ class TicketsDetail extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               Positioned(
                 left: 156,
                 top: 515,
@@ -338,14 +339,14 @@ class TicketsDetail extends StatelessWidget {
                 child: Container(
                   width: 120,
                   height: 50,
-                  decoration:  BoxDecoration(color: Color(0xFFD9D9D9)),
+                  decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
                   child: Container(
-                        decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/barcode.png'),
-                      fit: BoxFit.fill,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/barcode.png'),
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                  ),
                   ),
                 ),
               ),
