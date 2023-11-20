@@ -1,6 +1,8 @@
-// ignore_for_file: sized_box_for_whitespace, unused_import, annotate_overrides
-
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:main/auth.dart';
 import 'package:main/models/topupAmount.dart';
 import 'package:main/models/topup_amount_data.dart';
@@ -10,7 +12,7 @@ import 'home_movie_page.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmationPage extends StatefulWidget {
-  const ConfirmationPage({super.key});
+  const ConfirmationPage({Key? key}) : super(key: key);
 
   @override
   State<ConfirmationPage> createState() => _ConfirmationPageState();
@@ -18,10 +20,14 @@ class ConfirmationPage extends StatefulWidget {
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
   String? fullName = '';
+  File? profileImage;
+  final picker = ImagePicker();
+  Uint8List? _image;
 
   void initState() {
     super.initState();
     fetchFullName();
+    
   }
 
   void fetchFullName() async {
@@ -39,11 +45,44 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
     }
   }
 
+  _pickImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
+
+    // if (pickedFile != null) {
+    //   setState(() {
+    //     profileImage = File(pickedFile.path);
+    //   });
+    //   _uploadImageToFirebase();
+    // }
+    if (pickedFile != null){
+      return await pickedFile.readAsBytes();
+    }
+    print ("tidak ada gambar");
+  }
+
+  void selectImage() async{
+    Uint8List img = await _pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
+  Future<void> _uploadImageToFirebase() async {
+    try {
+      final storage = FirebaseStorage.instance;
+      final Reference storageReference =
+          storage.ref().child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
+      await storageReference.putFile(profileImage!);
+    } catch (e) {
+      print('Error uploading image to Firebase Storage: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var lebar = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1D1A), // warna latar belak
+      backgroundColor: const Color(0xFF1A1D1A), // warna latar belakang
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -83,7 +122,6 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               const SizedBox(height: 80),
               Stack(
                 children: [
-                  // widget container  dengan tinggi 850 piksel dan lebar maksimum untuk menampung widget lainnya
                   Positioned(
                     child: Container(
                       height: 170,
@@ -92,18 +130,22 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   ),
                   Center(
                     child: Container(
-                      width: 130, // Lebar ikon "person add"
-                      height: 130, // Tinggi ikon "person add"
+                      width: 130,
+                      height: 130,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(
-                            0xFF8AB0AB), // Warna latar belakang ikon "person add"
+                        color: Color(0xFF8AB0AB),
                       ),
-                      child: const Icon(
-                        Icons.person, // Ikon "person add"
-                        color: Color(0xFF25403B), // Warna ikon
-                        size: 100,
-                      ),
+                      child: _image != null
+                          ? CircleAvatar(
+                              backgroundImage : MemoryImage(_image!),
+                              
+                            )
+                          : const Icon(
+                              Icons.person,
+                              color: Color(0xFF25403B),
+                              size: 100,
+                            ),
                     ),
                   ),
                   Positioned(
@@ -111,21 +153,26 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                     left: (lebar - 40) / 2,
                     child: Center(
                       child: InkWell(
-                        onTap: () {
-                          // Tindakan yang akan diambil saat tombol ditekan
-                        },
+                        onTap: selectImage,
                         child: Container(
-                          width: 40, // Lebar ikon "person add"
-                          height: 40, // Tinggi ikon "person add"
-                          decoration: const BoxDecoration(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xFF25403B),
                           ),
-                          child: const Icon(
-                            Icons.add, // Ikon "person add"
-                            color: Color(0xFF8AB0AB), // Warna ikon
-                            size: 30,
-                          ),
+                          child: profileImage != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    profileImage!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.add,
+                                  color: Color(0xFF8AB0AB),
+                                  size: 30,
+                                ),
                         ),
                       ),
                     ),
@@ -163,7 +210,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               const SizedBox(height: 80),
               Container(
                 height: 80,
-                width: lebar, // Menggunakan MediaQuery untuk lebar tombol
+                width: lebar,
                 child: Row(
                   children: [
                     const Padding(
@@ -173,19 +220,17 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                         style: TextStyle(
                           fontSize: 20,
                           color: Color(0xFF8AB0AB),
-                          fontWeight: FontWeight.bold, // membuat teks tebal
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     Expanded(
-                      child:
-                          Container(), // Untuk mengisi ruang kosong dan mendorong ikon ke kanan
+                      child: Container(),
                     ),
                     InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              BottomNav(), // menggunakan AboutPage dari about_page.dart
+                          builder: (context) => BottomNav(),
                         ));
                       },
                       child: const Padding(

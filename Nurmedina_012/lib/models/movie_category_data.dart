@@ -4,49 +4,49 @@ import 'movie_category.dart';
 List<MovieCategory> myCategory = [
     MovieCategory(
       imageCat: Image.asset(
-        'assets/all.png', // Ganti dengan path gambar yang sesuai
-        width: 35, // Ganti dengan lebar gambar yang diinginkan
-        height: 35, // Ganti dengan tinggi gambar yang diinginkan
+        'assets/all.png', 
+        width: 35, 
+        height: 35, 
       ),
       titleCat: "All",
     ),
     MovieCategory(
       imageCat: Image.asset(
-        'assets/drama.png', // Ganti dengan path gambar yang sesuai
-        width: 32, // Ganti dengan lebar gambar yang diinginkan
-        height: 32, // Ganti dengan tinggi gambar yang diinginkan
+        'assets/drama.png', 
+        width: 32, 
+        height: 32, 
       ),
       titleCat: "Drama",
     ),
     MovieCategory(
       imageCat: Image.asset(
-        'assets/horror.png', // Ganti dengan path gambar yang sesuai
-        width: 28, // Ganti dengan lebar gambar yang diinginkan
-        height: 28, // Ganti dengan tinggi gambar yang diinginkan
+        'assets/horror.png', 
+        width: 28, 
+        height: 28, 
       ),
       titleCat: "Horror",
     ),
     MovieCategory(
       imageCat: Image.asset(
-        'assets/war.png', // Ganti dengan path gambar yang sesuai
-        width: 23, // Ganti dengan lebar gambar yang diinginkan
-        height: 23, // Ganti dengan tinggi gambar yang diinginkan
+        'assets/war.png', 
+        width: 23, 
+        height: 23, 
       ),
       titleCat: "War",
     ),
     MovieCategory(
       imageCat: Image.asset(
-        'assets/comedy.png', // Ganti dengan path gambar yang sesuai
-        width: 30, // Ganti dengan lebar gambar yang diinginkan
-        height: 30, // Ganti dengan tinggi gambar yang diinginkan
+        'assets/comedy.png', 
+        width: 30, 
+        height: 30, 
       ),
       titleCat: "Comedy",
     ),
     MovieCategory(
       imageCat: Image.asset(
-        'assets/action.png', // Ganti dengan path gambar yang sesuai
-        width: 30, // Ganti dengan lebar gambar yang diinginkan
-        height: 30, // Ganti dengan tinggi gambar yang diinginkan
+        'assets/action.png', 
+        width: 30, 
+        height: 30, 
       ),
       titleCat: "Action",
     ),
