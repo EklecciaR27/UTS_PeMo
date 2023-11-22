@@ -42,9 +42,9 @@ List<Widget> menuBottomNav = [
             label: "Movie",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.airplane_ticket_outlined,
+            icon: Icon(Icons.wallet,
                 color: Color(0xFF25403B), size: 30),
-            activeIcon: Icon(Icons.airplane_ticket,
+            activeIcon: Icon(Icons.wallet,
                 color: Color(0xFF8AB0AB), size: 30),
             label: "My Tickets",
           ),

@@ -15,4 +15,6 @@ class UserData extends ChangeNotifier {
     _myUsers.add(newUser);
     notifyListeners();
   }
+
+  void updateUserPhotoUrl(String downloadUrl) {}
 }

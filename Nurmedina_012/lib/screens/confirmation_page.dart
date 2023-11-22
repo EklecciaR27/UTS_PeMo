@@ -7,6 +7,7 @@ import 'package:main/auth.dart';
 import 'package:main/models/topupAmount.dart';
 import 'package:main/models/topup_amount_data.dart';
 import 'package:main/models/user_data.dart';
+import '../models/user.dart';
 import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
 import 'package:provider/provider.dart';
@@ -59,24 +60,69 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
     }
     print ("tidak ada gambar");
   }
+void selectImage() async {
+  Uint8List img = await _pickImage(ImageSource.gallery);
 
-  void selectImage() async{
-    Uint8List img = await _pickImage(ImageSource.gallery);
+  try {
+    // Upload image to Firebase Storage and update user's photo URL
+    String photoUrl = await _uploadImageToFirebase(img);
+
+    // Update the local user model
+    var userProvider = Provider.of<UserData>(context, listen: false);
+    userProvider.updateUserPhotoUrl(photoUrl);
+
     setState(() {
       _image = img;
     });
+  } catch (e) {
+    print('Error selecting image: $e');
   }
+}
 
-  Future<void> _uploadImageToFirebase() async {
-    try {
-      final storage = FirebaseStorage.instance;
-      final Reference storageReference =
-          storage.ref().child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
-      await storageReference.putFile(profileImage!);
-    } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
+Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
+  try {
+    final storage = FirebaseStorage.instance;
+    final Reference storageReference =
+        storage.ref().child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
+
+    UploadTask uploadTask = storageReference.putData(imageBytes);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+
+    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+    // Update the user's photo URL in Firestore
+    var userProvider = Provider.of<UserData>(context, listen: false);
+    var auth = Auth();
+
+    // Assuming you have a user object available in your state
+    var users = userProvider.myUsers;
+
+    if (users.isNotEmpty) {
+      var user = users.first;
+
+      // Check if the user already has a photo URL in Firestore
+      if (user.foto != null && user.foto.isNotEmpty) {
+        // User already has a photo URL, no need to update
+        print('User already has a photo URL: ${user.foto}');
+        return user.foto;
+      } else {
+        // User doesn't have a photo URL, update Firestore with the new URL
+        await auth.updateUserPhotoUrlInFirestore(context, user, downloadUrl);
+        print('User photo URL updated in Firestore: $downloadUrl');
+        return downloadUrl;
+      }
+    } else {
+      print('No user found in the userProvider');
+      return ''; // Handle the case where no user is found
     }
+  } catch (e) {
+    print('Error uploading image to Firebase Storage: $e');
+    throw e;
   }
+}
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -161,14 +207,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                             shape: BoxShape.circle,
                             color: Color(0xFF25403B),
                           ),
-                          child: profileImage != null
-                              ? ClipOval(
-                                  child: Image.file(
-                                    profileImage!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : const Icon(
+                          child:  const Icon(
                                   Icons.add,
                                   color: Color(0xFF8AB0AB),
                                   size: 30,
@@ -229,6 +268,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                     ),
                     InkWell(
                       onTap: () {
+                        _uploadImageToFirebase(_image!);
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => BottomNav(),
                         ));

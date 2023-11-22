@@ -32,7 +32,8 @@ class User {
       email: firebaseUser.email ?? '',
       password: '',
       confirmPassword: '',
-      foto: '', // Replace with your default image path
+      foto: firebaseUser.photoURL ?? '',
     );
   }
+
 }
