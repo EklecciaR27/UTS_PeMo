@@ -16,5 +16,16 @@ class UserData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserPhotoUrl(String downloadUrl) {}
+  void updateUserByEmail(String userEmail, User updatedUser) {
+    int index = _myUsers.indexWhere((user) => user.email == userEmail);
+
+    if (index != -1) {
+      _myUsers[index] = updatedUser;
+      notifyListeners();
+    } else {
+      print('User with email $userEmail not found.');
+    }
+  }
+
+
 }

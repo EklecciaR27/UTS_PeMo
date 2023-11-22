@@ -38,11 +38,40 @@ class TicketsDetail extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(imagePath),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
+
+              
+              // Positioned(
+              //   left: 50,
+              //   top: 50,
+              //   child: IconButton(
+              //       icon: const Icon(
+              //         Icons.arrow_back_outlined, // icon arrow back
+              //         size: 20, // ukuran icon
+              //         color: Colors.white, // warna icon
+              //       ),
+              //       onPressed: () {
+              //         Navigator.pop(context);
+              //       },
+              //     ),
+              // ),
+
+              // Positioned(
+              //   left: 20,
+              //   top: 50,
+              //   child: Text(
+              //     'Tickets',
+              //     style: TextStyle(
+              //       color: Colors.white,
+              //       fontSize: 30,
+              //       decoration: TextDecoration.none,
+              //     ),
+              //   ),
+              // ),
 
               Positioned(
                 left: 128,
@@ -56,6 +85,7 @@ class TicketsDetail extends StatelessWidget {
                   ),
                 ),
               ),
+              
               //posisi back
               Positioned(
                 left: 20,

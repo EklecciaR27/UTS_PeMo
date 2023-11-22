@@ -10,6 +10,8 @@ import '../models/user_data.dart';
 import '../widgets/movie_category_tile.dart';
 import '../widgets/movies_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_storage/firebase_storage.dart';
 
 class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
@@ -20,6 +22,7 @@ class HomeMoviePage extends StatefulWidget {
 
 class _HomeMoviePageState extends State<HomeMoviePage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  // final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   late TopupService _topupService;
   // late UserService _userService;
 
@@ -78,7 +81,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       var topUp = await _topupService.getNominalTopUp(email);
 
       if (topUp != null) {
-        // Access TopupData using Provider to update state
         Provider.of<TopupData>(context, listen: false).updateTopUp(topUp);
 
         setState(() {
@@ -87,6 +89,27 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       }
     } catch (e) {
       print('Error fetching top-up amount: $e');
+    }
+  }
+
+  Future<String> _getFirebaseStoragePhotoUrl() async {
+    try {
+      final firebase_auth.User? user = _auth.currentUser;
+
+      if (user != null) {
+        String userEmail = user.email!;
+        String fotoID = 'Foto_Profil_$userEmail';
+        final Reference storageReference =
+            FirebaseStorage.instance.ref().child('profile_images/$fotoID.jpg');
+
+        String downloadUrl = await storageReference.getDownloadURL();
+        return downloadUrl;
+      } else {
+        return ''; 
+      }
+    } catch (e) {
+      print('Error getting image from Firebase Storage: $e');
+      return '';
     }
   }
 
@@ -111,13 +134,35 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       child: Container(
                         width: 70,
                         height: 70,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                'https://tse1.mm.bing.net/th?id=OIP.k5ibySapu-61GoJC0RIN1QHaDt&pid=Api&P=0&h=180'),
-                            fit: BoxFit.cover,
-                          ),
+                          color: Color(0xFF8AB0AB),
+                        ),
+                        child: FutureBuilder<String>(
+                          future: _getFirebaseStoragePhotoUrl(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Icon(
+                                Icons.person,
+                                color: Color(0xFF25403B),
+                                size: 50,
+                              );
+                            } else if (snapshot.hasData &&
+                                snapshot.data != null) {
+                              return CircleAvatar(
+                                backgroundImage: NetworkImage(snapshot.data!),
+                              );
+                            } else {
+                              return Icon(
+                                Icons.person,
+                                color: Color(0xFF25403B),
+                                size: 50,
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),

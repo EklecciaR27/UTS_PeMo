@@ -86,29 +86,20 @@ class Auth extends ChangeNotifier{
       print('Error updating user photo URL: $e');
     }
   }
-
-
-
-Future<void> updateUserPhotoUrlInFirestore(BuildContext context, my_models.User user, String photoUrl) async {
+Future<void> updateUserPhotoUrlInFirestore(
+  User user,
+  String photoUrl,
+  String fotoID,
+) async {
   try {
-    var firestore = FirebaseFirestore.instance;
-
-    // Assuming 'users' is your collection name
-    var userRef = firestore.collection('users').doc(user.email);
-
-    // Fetch the current data to check if 'foto' is empty
-    var userData = await userRef.get();
-    var currentFoto = userData['foto'];
-
-    if (currentFoto == null || currentFoto.isEmpty) {
-      // 'foto' is empty, update it with the new photoUrl
-      await userRef.update({'foto': photoUrl});
-    }
-
-    // If 'foto' is not empty, you can handle it differently or do nothing
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid) // Menggunakan uid sebagai referensi unik
+        .update({
+      'foto': fotoID,
+    });
   } catch (e) {
     print('Error updating user photo URL in Firestore: $e');
-    throw e;
   }
 }
 

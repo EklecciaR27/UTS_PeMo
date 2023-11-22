@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,6 +12,8 @@ import '../models/user.dart';
 import '../widgets/bottom_nav.dart';
 import 'home_movie_page.dart';
 import 'package:provider/provider.dart';
+import '../models/user.dart' as my_models;
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({Key? key}) : super(key: key);
@@ -20,18 +23,20 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
+  final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   String? fullName = '';
   File? profileImage;
   final picker = ImagePicker();
   Uint8List? _image;
+  String? fotoID;
 
+  @override
   void initState() {
     super.initState();
     fetchFullName();
-    
   }
 
-  void fetchFullName() async {
+  Future<void> fetchFullName() async {
     try {
       var userProvider = Provider.of<UserData>(context, listen: false);
       var user = userProvider.myUsers.first;
@@ -46,83 +51,119 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
     }
   }
 
-  _pickImage(ImageSource source) async {
+   _pickImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: source);
-
-    // if (pickedFile != null) {
-    //   setState(() {
-    //     profileImage = File(pickedFile.path);
-    //   });
-    //   _uploadImageToFirebase();
-    // }
-    if (pickedFile != null){
-      return await pickedFile.readAsBytes();
-    }
-    print ("tidak ada gambar");
-  }
-void selectImage() async {
-  Uint8List img = await _pickImage(ImageSource.gallery);
-
-  try {
-    // Upload image to Firebase Storage and update user's photo URL
-    String photoUrl = await _uploadImageToFirebase(img);
-
-    // Update the local user model
-    var userProvider = Provider.of<UserData>(context, listen: false);
-    userProvider.updateUserPhotoUrl(photoUrl);
-
-    setState(() {
-      _image = img;
-    });
-  } catch (e) {
-    print('Error selecting image: $e');
-  }
-}
-
-Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
-  try {
-    final storage = FirebaseStorage.instance;
-    final Reference storageReference =
-        storage.ref().child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
-
-    UploadTask uploadTask = storageReference.putData(imageBytes);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-
-    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-    // Update the user's photo URL in Firestore
-    var userProvider = Provider.of<UserData>(context, listen: false);
-    var auth = Auth();
-
-    // Assuming you have a user object available in your state
-    var users = userProvider.myUsers;
-
-    if (users.isNotEmpty) {
-      var user = users.first;
-
-      // Check if the user already has a photo URL in Firestore
-      if (user.foto != null && user.foto.isNotEmpty) {
-        // User already has a photo URL, no need to update
-        print('User already has a photo URL: ${user.foto}');
-        return user.foto;
-      } else {
-        // User doesn't have a photo URL, update Firestore with the new URL
-        await auth.updateUserPhotoUrlInFirestore(context, user, downloadUrl);
-        print('User photo URL updated in Firestore: $downloadUrl');
-        return downloadUrl;
-      }
+    if (pickedFile != null) {
+      final imageBytes = await pickedFile.readAsBytes();
+      setState(() {
+        _image = imageBytes;
+      });
     } else {
-      print('No user found in the userProvider');
-      return ''; // Handle the case where no user is found
+      print("Tidak ada gambar yang dipilih");
     }
-  } catch (e) {
-    print('Error uploading image to Firebase Storage: $e');
-    throw e;
   }
-}
 
+  void selectImage() async {
+    Uint8List img = await _pickImage(ImageSource.gallery);
+    firebase_auth.User? user = _auth.currentUser;
 
+    if (img != null && user != null) {
+      try {
+        var auth = Auth();
+        String photoUrl = await _uploadImageToFirebase(img);
 
+        var userProvider = Provider.of<UserData>(context, listen: false);
+
+        if (user.email != null && user.email!.isNotEmpty) {
+          String userEmail = user.email!;
+          String fotoID = 'Foto_Profil_$userEmail';
+
+          my_models.User users = my_models.User(
+            fullName: user.displayName ?? '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            foto: photoUrl,
+          );
+
+          userProvider.updateUserByEmail(userEmail, users);
+          await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+
+          setState(() {
+            _image = img;
+          });
+        } else {
+          print('Error: User does not have a valid email.');
+        }
+      } catch (e) {
+        print('Error selecting image: $e');
+      }
+    }
+  }
+
+  Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
+    try {
+      final storage = FirebaseStorage.instance;
+      firebase_auth.User? user = _auth.currentUser;
+
+      if (user != null) {
+        String userEmail = user.email!;
+        String fotoID = 'Foto_Profil_$userEmail';
+
+        final Reference storageReference =
+            storage.ref().child('profile_images/$fotoID.jpg');
+
+        UploadTask uploadTask = storageReference.putData(imageBytes);
+        await uploadTask.whenComplete(() => null);
+
+        String downloadUrl = await storageReference.getDownloadURL();
+
+        var userProvider = Provider.of<UserData>(context, listen: false);
+        var users = userProvider.myUsers;
+
+        if (users.isNotEmpty) {
+          var user = users.first;
+
+          if (user.foto != null && user.foto.isNotEmpty) {
+            print('User already has a photo URL: ${user.foto}');
+            return user.foto;
+          } else {
+            print('User photo URL updated in Firestore: $downloadUrl');
+            return downloadUrl;
+          }
+        } else {
+          print('No user found in the userProvider');
+          return '';
+        }
+      } else {
+        print('Error: User is null.');
+        return '';
+      }
+    } catch (e) {
+      print('Error uploading image to Firebase Storage: $e');
+      throw e;
+    }
+  }
+
+  Future<String> _getFirebaseStoragePhotoUrl() async {
+    try {
+      final firebase_auth.User? user = _auth.currentUser;
+
+      if (user != null) {
+        String userEmail = user.email!;
+        String fotoID = 'Foto_Profil_$userEmail';
+        final Reference storageReference =
+            FirebaseStorage.instance.ref().child('profile_images/$fotoID.jpg');
+        String downloadUrl = await storageReference.getDownloadURL();
+        return downloadUrl;
+      } else {
+        return '';
+      }
+    } catch (e) {
+      print('Error getting image from Firebase Storage: $e');
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,13 +225,50 @@ Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
                       ),
                       child: _image != null
                           ? CircleAvatar(
-                              backgroundImage : MemoryImage(_image!),
-                              
+                              backgroundImage: MemoryImage(_image!),
                             )
-                          : const Icon(
-                              Icons.person,
-                              color: Color(0xFF25403B),
-                              size: 100,
+                          : FutureBuilder<String>(
+                              future: _getFirebaseStoragePhotoUrl(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Icon(
+                                    Icons.person,
+                                    color: Color(0xFF25403B),
+                                    size: 100,
+                                  );
+                                } else if (snapshot.hasData &&
+                                    snapshot.data != null) {
+                                  return CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      snapshot.data!,
+                                    ),
+                                  );
+                                } else {
+                                  var userProvider = Provider.of<UserData>(
+                                      context,
+                                      listen: false);
+                                  var users = userProvider.myUsers;
+
+                                  if (users.isNotEmpty) {
+                                    var user = users.first;
+                                    if (user.foto == snapshot.data) {
+                                      return CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          snapshot.data!,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                  return Icon(
+                                    Icons.person,
+                                    color: Color(0xFF25403B),
+                                    size: 100,
+                                  );
+                                }
+                              },
                             ),
                     ),
                   ),
@@ -199,7 +277,9 @@ Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
                     left: (lebar - 40) / 2,
                     child: Center(
                       child: InkWell(
-                        onTap: selectImage,
+                        onTap: () {
+                          selectImage();
+                        },
                         child: Container(
                           width: 40,
                           height: 40,
@@ -207,11 +287,11 @@ Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
                             shape: BoxShape.circle,
                             color: Color(0xFF25403B),
                           ),
-                          child:  const Icon(
-                                  Icons.add,
-                                  color: Color(0xFF8AB0AB),
-                                  size: 30,
-                                ),
+                          child: const Icon(
+                            Icons.add,
+                            color: Color(0xFF8AB0AB),
+                            size: 30,
+                          ),
                         ),
                       ),
                     ),
@@ -268,7 +348,6 @@ Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
                     ),
                     InkWell(
                       onTap: () {
-                        _uploadImageToFirebase(_image!);
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => BottomNav(),
                         ));
