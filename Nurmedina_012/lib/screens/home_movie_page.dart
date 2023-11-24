@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:main/models/movie_category.dart';
 import 'package:provider/provider.dart';
 import '../models/movie_category_data.dart';
+import '../models/movie_model.dart';
 import '../models/movies_data.dart';
 import '../models/topup_amount_data.dart';
 import '../models/topup_service.dart';
@@ -226,51 +227,52 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 ),
               ),
               const SizedBox(height: 15),
-              Container(
-                width: lebar,
-                height: (tinggi - 280) / 2,
-                child: selectedCategory == null ||
-                        selectedCategory!.titleCat == 'All'
-                    ? ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.only(top: 5),
-                        itemCount: myMovies.length,
-                        itemBuilder: (context, i) {
-                          return Container(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: MovieTile(movie: myMovies[i]),
-                          );
-                        },
-                      )
-                    : myMovies.any(
-                            (fav) => fav.category == selectedCategory!.titleCat)
-                        ? ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.only(top: 5),
-                            itemCount: myMovies.length,
-                            itemBuilder: (context, i) {
-                              if (myMovies[i].category ==
-                                  selectedCategory!.titleCat) {
-                                return Container(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: MovieTile(movie: myMovies[i]),
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            },
-                          )
-                        : const Center(
-                            child: Text(
-                              'No matches.', // Display this text when there are no matches
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Color(0xFFC0CAAD),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-              ),
+
+    Container(
+      width: lebar,
+      height: (tinggi - 280) / 2,
+      child: selectedCategory == null ||
+          selectedCategory!.titleCat == 'All'
+          ? ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(top: 5),
+        itemCount: Provider.of<MovieModel>(context).movies.length,
+        itemBuilder: (context, i) {
+          return Container(
+            padding: const EdgeInsets.only(left: 20),
+            child: MovieTile(movie: Provider.of<MovieModel>(context).movies[i]),
+          );
+        },
+      )
+          : Provider.of<MovieModel>(context).movies.any(
+              (fav) => fav.category == selectedCategory!.titleCat)
+          ? ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(top: 5),
+        itemCount: Provider.of<MovieModel>(context).movies.length,
+        itemBuilder: (context, i) {
+          if (Provider.of<MovieModel>(context).movies[i].category ==
+              selectedCategory!.titleCat) {
+            return Container(
+              padding: const EdgeInsets.only(left: 20),
+              child: MovieTile(movie: Provider.of<MovieModel>(context).movies[i]),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      )
+          : const Center(
+        child: Text(
+          'No matches.',
+          style: TextStyle(
+            fontSize: 18,
+            color: Color(0xFFC0CAAD),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
               const SizedBox(height: 15),
               Container(
                 height: 20,

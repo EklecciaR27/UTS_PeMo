@@ -23,11 +23,11 @@ class Auth extends ChangeNotifier{
 
       firebase_auth.User? user = _auth.currentUser;
 
-      await _firestore.collection('users').doc(user!.uid).set({
-        'fullName': fullName,
-        'email': email,
-        'foto': foto,
-      });
+    await FirebaseFirestore.instance.collection('users').doc(email).set({
+      'fullName': fullName,
+      'email': email,
+      'foto': foto,
+    });
 
       return my_models.User(
         fullName: fullName,
@@ -48,14 +48,14 @@ class Auth extends ChangeNotifier{
 
       firebase_auth.User? user = _auth.currentUser;
 
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(user!.uid).get();
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(email).get();
 
       return my_models.User(
           fullName: userDoc.get('fullName'),
           email: userDoc.get('email'),
           password: '',
           confirmPassword: '',
-          foto: 'default_image_path', 
+          foto: '', 
       );
     } catch (e) {
       print('Login failed: $e');
@@ -94,7 +94,7 @@ Future<void> updateUserPhotoUrlInFirestore(
   try {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(user.uid) // Menggunakan uid sebagai referensi unik
+        .doc(user.email) // Menggunakan uid sebagai referensi unik
         .update({
       'foto': fotoID,
     });

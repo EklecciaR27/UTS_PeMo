@@ -25,7 +25,6 @@ class ConfirmationPage extends StatefulWidget {
 class _ConfirmationPageState extends State<ConfirmationPage> {
   final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   String? fullName = '';
-  File? profileImage;
   final picker = ImagePicker();
   Uint8List? _image;
   String? fotoID;
@@ -34,6 +33,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   void initState() {
     super.initState();
     fetchFullName();
+    // _uploadImageToFirebase(_image);
   }
 
   Future<void> fetchFullName() async {
@@ -51,60 +51,63 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
     }
   }
 
-   _pickImage(ImageSource source) async {
-    final pickedFile = await picker.pickImage(source: source);
-    if (pickedFile != null) {
-      final imageBytes = await pickedFile.readAsBytes();
-      setState(() {
-        _image = imageBytes;
-      });
-    } else {
-      print("Tidak ada gambar yang dipilih");
-    }
+Future<Uint8List?> _pickImage(ImageSource source) async {
+  final pickedFile = await ImagePicker().pickImage(source: source);
+
+  if (pickedFile != null) {
+    final imageBytes = await pickedFile.readAsBytes();
+    return imageBytes;
+  } else {
+    print("No image selected");
+    return null;
   }
+}
 
-  void selectImage() async {
-    Uint8List img = await _pickImage(ImageSource.gallery);
-    firebase_auth.User? user = _auth.currentUser;
 
-    if (img != null && user != null) {
-      try {
-        var auth = Auth();
-        String photoUrl = await _uploadImageToFirebase(img);
+void selectImage() async {
+  Uint8List? img = await _pickImage(ImageSource.gallery);
+  firebase_auth.User? user = _auth.currentUser;
 
-        var userProvider = Provider.of<UserData>(context, listen: false);
+  if (img != null && user != null) {
+    try {
+      var auth = Auth();
+      String photoUrl = await _uploadImageToFirebase(img);
 
-        if (user.email != null && user.email!.isNotEmpty) {
-          String userEmail = user.email!;
-          String fotoID = 'Foto_Profil_$userEmail';
+      var userProvider = Provider.of<UserData>(context, listen: false);
 
-          my_models.User users = my_models.User(
-            fullName: user.displayName ?? '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            foto: photoUrl,
-          );
+      if (user.email != null && user.email!.isNotEmpty) {
+        String userEmail = user.email!;
+        String fotoID = 'Foto_Profil_$userEmail';
 
-          userProvider.updateUserByEmail(userEmail, users);
-          await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+        my_models.User updatedUser = my_models.User(
+          fullName: user.displayName ?? '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          foto: photoUrl,
+        );
 
-          setState(() {
-            _image = img;
-          });
-        } else {
-          print('Error: User does not have a valid email.');
-        }
-      } catch (e) {
-        print('Error selecting image: $e');
+        userProvider.updateUserByEmail(userEmail, updatedUser);
+        await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+
+        setState(() {
+          _image = img;
+        });
+      } else {
+        print('Error: User does not have a valid email.');
       }
+    } catch (e) {
+      print('Error selecting image: $e');
     }
   }
+}
+
+
 
   Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
     try {
       final storage = FirebaseStorage.instance;
-      firebase_auth.User? user = _auth.currentUser;
+      var user = _auth.currentUser;
 
       if (user != null) {
         String userEmail = user.email!;
@@ -114,27 +117,10 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
             storage.ref().child('profile_images/$fotoID.jpg');
 
         UploadTask uploadTask = storageReference.putData(imageBytes);
-        await uploadTask.whenComplete(() => null);
+        await uploadTask;
 
         String downloadUrl = await storageReference.getDownloadURL();
-
-        var userProvider = Provider.of<UserData>(context, listen: false);
-        var users = userProvider.myUsers;
-
-        if (users.isNotEmpty) {
-          var user = users.first;
-
-          if (user.foto != null && user.foto.isNotEmpty) {
-            print('User already has a photo URL: ${user.foto}');
-            return user.foto;
-          } else {
-            print('User photo URL updated in Firestore: $downloadUrl');
-            return downloadUrl;
-          }
-        } else {
-          print('No user found in the userProvider');
-          return '';
-        }
+        return downloadUrl;
       } else {
         print('Error: User is null.');
         return '';
@@ -144,6 +130,42 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
       throw e;
     }
   }
+
+  
+  Future<void> _uploadAndSaveImage(Uint8List imageBytes) async {
+    try {
+      var auth = Auth();
+      String photoUrl = await _uploadImageToFirebase(imageBytes);
+
+      var userProvider = Provider.of<UserData>(context, listen: false);
+      var user = _auth.currentUser;
+
+      if (user != null) {
+        String userEmail = user.email!;
+        String fotoID = 'Foto_Profil_$userEmail';
+
+        my_models.User updatedUser = my_models.User(
+          fullName: user.displayName ?? '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          foto: photoUrl,
+        );
+
+        userProvider.updateUserByEmail(userEmail, updatedUser);
+        await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+
+        setState(() {
+          _image = imageBytes;
+        });
+      } else {
+        print('Error: User is null.');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
+
 
   Future<String> _getFirebaseStoragePhotoUrl() async {
     try {
@@ -278,7 +300,12 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                     child: Center(
                       child: InkWell(
                         onTap: () {
-                          selectImage();
+                          _pickImage(ImageSource.gallery)
+                              .then((imageBytes) =>
+                                  _uploadAndSaveImage(imageBytes!))
+                              .catchError((error) {
+                            print('Error selecting/uploading image: $error');
+                          });
                         },
                         child: Container(
                           width: 40,

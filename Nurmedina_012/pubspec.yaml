@@ -45,6 +45,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  http: ^1.1.1
   image_picker: ^1.0.4
 
 # For information on the generic Dart part of this file, see the
@@ -92,6 +93,7 @@ flutter:
     - assets/barcode.png
     - assets/clock.png
     - assets/location.png
+    - assets/FontManifest.json
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see

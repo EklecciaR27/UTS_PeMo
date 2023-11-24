@@ -20,4 +20,20 @@ class Movies {
     required this.director,
     required this.storyLine,
   });
+
+  factory Movies.fromJson(Map<String, dynamic> json) {
+    return Movies(
+      img: json['img'],
+      title: json['title'],
+      duration: json['duration'],
+      category: json['category'],
+      rating: json['rating'],
+      star: json['star'],
+      globe: json['globe'],
+      director: json['director'],
+      storyLine: json['storyLine'],
+    );
+  }
+
+  static List<Movies> myMovies = [];
 }
