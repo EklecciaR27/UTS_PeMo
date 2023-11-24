@@ -29,15 +29,12 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cloud_firestore: ^4.13.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.13.0
   firebase_core: ^2.22.0
   flutter:
     sdk: flutter
-  google_fonts: ^6.0.0
+  google_fonts: ^4.0.4
   provider: ^6.0.5
 
 dev_dependencies:
@@ -45,7 +42,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  http: ^1.1.1
+  http: ^0.13.3
   image_picker: ^1.0.4
 
 # For information on the generic Dart part of this file, see the
@@ -93,7 +90,7 @@ flutter:
     - assets/barcode.png
     - assets/clock.png
     - assets/location.png
-    - assets/FontManifest.json
+    
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see
@@ -104,6 +101,7 @@ flutter:
     # list giving the asset and other descriptors for the font. For
     # example:
     # fonts:
+    #    - assets/FontManifest.json
     #   - family: Schyler
     #     fonts:
     #       - asset: fonts/Schyler-Regular.ttf

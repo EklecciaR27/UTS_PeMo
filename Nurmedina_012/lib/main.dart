@@ -13,8 +13,6 @@ import 'package:main/screens/signUp.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
 
-import 'models/movie_model.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -35,8 +33,7 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => JadwalProvider(),
-        ),
-         ChangeNotifierProvider(create: (_) => MovieModel()),
+        )
       ],
       child: MyApp(),
     ),

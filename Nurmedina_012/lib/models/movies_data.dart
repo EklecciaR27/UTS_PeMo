@@ -1,28 +1,48 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter/widgets.dart'; // Import library untuk BuildContext
-import 'package:main/models/movie_model.dart';
-import 'package:provider/provider.dart';
-
 import 'movies.dart';
 
-class MovieApi {
-  static const apiKey = 'f27eba4260f9e58a6ed20c5c307fef5b';
-  static const baseUrl = 'https://api.themoviedb.org/3';
-
-  static Future<List<Movies>> fetchMovies(BuildContext context) async {
-    final response = await http.get(Uri.parse('$baseUrl/movie/popular?api_key=$apiKey'));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body)['results'];
-
-      Provider.of<MovieModel>(context, listen: false).setMovies(
-        data.map((json) => Movies.fromJson(json)).toList(),
-      );
-
-      return data.map((json) => Movies.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load movies');
-    }
-  }
-}
-
+List<Movies> myMovies = [
+    Movies(
+      img: "posterFilm1.jpg",
+      title: "NOAH",
+      duration: "1 hr 30 min",
+      category: "Action",
+      rating: "A+",
+      star: "Taisa Farmiga",
+      globe: "IMDB",
+      director: "John",
+      storyLine: "The Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story The film Titanic tells the story of the love between Jack Dawson (played by Leonardo DiCaprio) and Rose DeWitt Bukater (played by Kate Winslet) that begins aboard the luxurious ship, RMS Titanic",
+    ),
+    Movies(
+      img: "posterFilm2.jpg",
+      title: "TABU",
+      duration: "1 hr 25 min",
+      category: "Horror",
+      rating: "A",
+      star: "Indah Permatasari",
+      globe: "IMDB",
+      director: "John",
+      storyLine: "The film Titanic tells the story of the love between Jack Dawson (played by Leonardo DiCaprio) and Rose DeWitt Bukater (played by Kate Winslet) that begins aboard the luxurious ship, RMS Titanic",
+    ),
+    Movies(
+      img: "posterFilm3.jpg",
+      title: "Titanic",
+      duration: "3 hr 15 min",
+      category: "Drama",
+      rating: "B",
+      star: "Kendall Jenner",
+      globe: "IMDB",
+      director: "John",
+      storyLine: "The film Titanic tells the story of the love between Jack Dawson (played by Leonardo DiCaprio) and Rose DeWitt Bukater (played by Kate Winslet) that begins aboard the luxurious ship, RMS Titanic",
+    ),
+    Movies(
+      img: "posterFilm4.jpg",
+      title: "Marvel",
+      duration: "3 hr 15 min",
+      category: "Drama",
+      rating: "C",
+      star: "Kendall Jenner",
+      globe: "IMDB",
+      director: "John",
+      storyLine: "The film Titanic tells the story of the love between Jack Dawson (played by Leonardo DiCaprio) and Rose DeWitt Bukater (played by Kate Winslet) that begins aboard the luxurious ship, RMS Titanic",
+    ),
+  ];
