@@ -1,70 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:main/models/firestoreservice.dart';
 
-class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Input Page',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Colors.black,
-      ),
-      home: EditProfilePageForm(title: 'Edit Profile'),
-    );
-  }
-}
-
-class EditProfilePageForm extends StatefulWidget {
-  const EditProfilePageForm({Key? key, required this.title}) : super(key: key);
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  _EditProfileFormState createState() => _EditProfileFormState();
 }
 
-class _SignUpFormState extends State<EditProfilePageForm> {
+class _EditProfileFormState extends State<EditProfilePage> {
   final TextEditingController _controllerFullName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPW = TextEditingController();
   final TextEditingController _controllerKonfirm = TextEditingController();
-  int _index = 0;
+  final FirestoreService _firestoreService =
+      FirestoreService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void _onItemTap(int index) {
-    setState(() {
-      _index = index;
-    });
+void _updateUserProfile() async {
+  print('Updating user profile...');
+  String? userId = _auth.currentUser?.uid;
+
+  if (userId != null) {
+    print('User ID: $userId');
+    String newFullName = _controllerFullName.text;
+
+    try {
+      await _firestoreService.updateFullName(userId, newFullName);
+      print('Nama lengkap berhasil diperbarui');
+      Navigator.pop(context, true);
+    } catch (e) {
+      print('Error updating full name: $e');
+      Navigator.pop(context, false);
+    }
+  } else {
+    print('User ID not found. Make sure the user is authenticated.');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
-        unselectedItemColor: Color.fromRGBO(62, 80, 91, 1),
-        selectedItemColor: Color.fromRGBO(138, 176, 171, 1),
-        currentIndex: _index,
-        onTap: _onItemTap,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Movie",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: "My Tickets",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt_outlined),
-            label: "Profile",
-          ),
-        ],
-      ),
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -257,7 +238,7 @@ class _SignUpFormState extends State<EditProfilePageForm> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {});
+                        _updateUserProfile();
                       },
                       style: ButtonStyle(
                         shape:

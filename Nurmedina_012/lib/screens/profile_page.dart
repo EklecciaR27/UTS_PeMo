@@ -1,37 +1,59 @@
+// profile_page.dart
 import 'package:flutter/material.dart';
+import 'package:main/models/user_data.dart';
+import 'package:provider/provider.dart';
 import 'edit_profile_page.dart';
 import 'my_wallet_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:main/auth.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
-      ),
-      home: MyHomePage(),
-    );
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String? fullName;
+  String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFullName();
+    fetchEmail();
+    isSelectedList = List.generate(photos.length, (index) => false);
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key});
+  void fetchFullName() async {
+    try {
+      var userProvider = Provider.of<UserData>(context, listen: false);
+      var user = userProvider.myUsers.first;
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+      if (user != null) {
+        setState(() {
+          fullName = user.fullName;
+        });
+      }
+    } catch (e) {
+      print('Error fetching full name: $e');
+    }
+  }
+  
+  void fetchEmail() async {
+    try {
+      var userProvider = Provider.of<UserData>(context, listen: false);
+      var user = userProvider.myUsers.first;
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _index = 0;
-
-  void _onItemTap(int index) {
-    setState(() {
-      _index = index;
-    });
+      if (user != null) {
+        setState(() {
+          email = user.email;
+        });
+      }
+    } catch (e) {
+      print('Error fetching email: $e');
+    }
   }
 
   void _navigateToProfilePage(BuildContext context, String title) {
@@ -40,19 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.of(context)
             .push(
           MaterialPageRoute(
-            builder: (context) => EditProfilePage(),
+            builder: (context) => EditProfilePage(title: title),
           ),
         )
             .then((result) {
-          setState(() {
-            for (var i = 0; i < isSelectedList.length; i++) {
-              isSelectedList[i] = false;
-            }
-            for (var i = 0; i < photos.length; i++) {
-              photos[i]["image"] =
-                  isSelectedList[i] ? selectedImageNames[i] : imageNames[i];
-            }
-          });
+          if (result == true) {
+            fetchFullName();
+          }
         });
         break;
       case "My Wallet":
@@ -63,16 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         )
             .then((result) {
-          setState(() {
-            for (var i = 0; i < isSelectedList.length; i++) {
-              isSelectedList[i] = false;
-            }
-            for (var i = 0; i < photos.length; i++) {
-              photos[i]["image"] =
-                  isSelectedList[i] ? selectedImageNames[i] : imageNames[i];
-            }
-          });
         });
+        break;
     }
   }
 
@@ -101,53 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late List<bool> isSelectedList;
 
-  final List<String> imageNames = [
-    "assets/user-avatar.png",
-    "assets/wallet1.png",
-    "assets/language.png",
-    "assets/question.png",
-    "assets/review.png",
-  ];
-
-  final List<String> selectedImageNames = [
-    "assets/user-avatar2.png",
-    "assets/wallet2.png",
-    "assets/language2.png",
-    "assets/question2.png",
-    "assets/review2.png",
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    isSelectedList = List.generate(photos.length, (index) => false);
-  }
-
   @override
   Widget build(BuildContext context) {
+    Auth auth = Auth();
+
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
-        unselectedItemColor: Color.fromRGBO(62, 80, 91, 1),
-        selectedItemColor: Color.fromRGBO(138, 176, 171, 1),
-        currentIndex: _index,
-        onTap: _onItemTap,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Movie",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: "My Tickets",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt_outlined),
-            label: "Profile",
-          ),
-        ],
-      ),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Center(
@@ -170,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Refal Hady",
+                    fullName ?? "Nama Pengguna",
                     style: GoogleFonts.raleway(
                       textStyle: TextStyle(
                         color: Colors.white,
@@ -181,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "refalhady@gmail.com",
+                    email ?? "Email Pengguna",
                     style: GoogleFonts.raleway(
                       textStyle: TextStyle(
                         color: Colors.white,

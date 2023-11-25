@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:main/screens/topup.dart';
 
 class MyWalletPage extends StatelessWidget {
   const MyWalletPage({Key? key}) : super(key: key);
@@ -87,7 +88,12 @@ class MyWalletPage extends StatelessWidget {
                   width: 250,
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TopupPage()),
+                      );
+                    },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
