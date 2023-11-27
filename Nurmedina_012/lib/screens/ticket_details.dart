@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/models/jadwal_data.dart';
 import 'package:main/models/selectSeatsModel.dart';
+import 'package:main/models/topup_service.dart';
 import 'package:main/screens/select_seat.dart';
 import 'package:main/screens/topup.dart';
 import 'package:provider/provider.dart';
+
+import '../models/topup_amount_data.dart';
 
 class detailsTiket extends StatefulWidget {
   const detailsTiket({super.key});
@@ -13,6 +17,36 @@ class detailsTiket extends StatefulWidget {
 }
 
 class _detailsTiketState extends State<detailsTiket> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  // final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
+  late TopupService _topupService;
+
+  double? nominal = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    _topupService = TopupService();
+    fetchNominalTopUp();
+  }
+
+  void fetchNominalTopUp() async {
+    try {
+      var user = _auth.currentUser;
+      var email = user?.email ?? '';
+
+      var topUp = await _topupService.getNominalTopUp(email);
+
+      if (topUp != null) {
+        Provider.of<TopupData>(context, listen: false).updateTopUp(topUp);
+
+        setState(() {
+          nominal = topUp.nominal;
+        });
+      }
+    } catch (e) {
+      print('Error fetching top-up amount: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final selectedSeatsModel = Provider.of<SelectedSeatsModel>(context);
@@ -261,8 +295,8 @@ class _detailsTiketState extends State<detailsTiket> {
                   ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(120, 0, 0, 0),
-                    child: const Text(
-                      "80.000",
+                    child: Text(
+                     "Rp. $nominal",
                       style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 255, 255, 255)),

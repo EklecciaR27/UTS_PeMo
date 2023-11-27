@@ -159,7 +159,9 @@ void _submitTopup(BuildContext context) async {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(0, 0, 0, 1),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                      Navigator.pop(context);
+                    },
                   child: Container(
                     child: Icon(
                       Icons.arrow_back,
