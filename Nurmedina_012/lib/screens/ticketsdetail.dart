@@ -44,7 +44,6 @@ class TicketsDetail extends StatelessWidget {
                 ),
               ),
 
-              
               // Positioned(
               //   left: 50,
               //   top: 50,
@@ -85,34 +84,34 @@ class TicketsDetail extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               //posisi back
-              Positioned(
-                left: 20,
-                top: 44,
-                child: Container(
-                  width: 34,
-                  height: 34,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_outlined, // icon arrow back
-                            size: 35, // ukuran icon
-                            color: Colors.white, // warna icon
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   left: 20,
+              //   top: 44,
+              //   child: Container(
+              //     width: 34,
+              //     height: 34,
+              //     child: Stack(
+              //       children: [
+              //         Positioned(
+              //           left: 0,
+              //           top: 0,
+              //           child: IconButton(
+              //             icon: const Icon(
+              //               Icons.arrow_back_outlined, // icon arrow back
+              //               size: 35, // ukuran icon
+              //               color: Colors.white, // warna icon
+              //             ),
+              //             onPressed: () {
+              //               Navigator.pop(context);
+              //             },
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
               //ijo muda
               Positioned(

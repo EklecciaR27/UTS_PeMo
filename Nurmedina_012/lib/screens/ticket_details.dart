@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:main/models/jadwal_data.dart';
 import 'package:main/models/selectSeatsModel.dart';
 import 'package:main/screens/select_seat.dart';
+import 'package:main/screens/topup.dart';
 import 'package:provider/provider.dart';
 
 class detailsTiket extends StatefulWidget {
@@ -288,13 +289,22 @@ class _detailsTiketState extends State<detailsTiket> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(15, 15, 5, 20),
-                      child: const Icon(
-                        Icons.wallet_sharp,
-                        size: 30,
-                        color: Color.fromARGB(255, 192, 203,
-                            173), // You can set the color as needed
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigate to the other page when the icon is clicked
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TopupPage()),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.wallet_sharp,
+                          size: 30,
+                          color: Color.fromARGB(255, 192, 203, 173),
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
