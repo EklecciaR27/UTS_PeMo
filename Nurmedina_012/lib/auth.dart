@@ -10,7 +10,7 @@ class Auth extends ChangeNotifier{
   final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<my_models.User> regis(String fullName, String email, String password, String confirmPassword, String foto) async {
+   Future<my_models.User> regis(String fullName, String email, String password, String confirmPassword, String foto) async {
     if (password != confirmPassword) {
       throw Exception("Passwords do not match");
     }
@@ -23,11 +23,11 @@ class Auth extends ChangeNotifier{
 
       firebase_auth.User? user = _auth.currentUser;
 
-    await FirebaseFirestore.instance.collection('users').doc(email).set({
-      'fullName': fullName,
-      'email': email,
-      'foto': foto,
-    });
+      await FirebaseFirestore.instance.collection('users').doc(email).set({
+        'fullName': fullName,
+        'email': email,
+        'foto': foto,
+      });
 
       return my_models.User(
         fullName: fullName,
@@ -36,12 +36,24 @@ class Auth extends ChangeNotifier{
         confirmPassword: confirmPassword,
         foto: foto,
       );
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase authentication exceptions
+      if (e.code == 'weak-password') {
+        print('Registration failed: The password provided is too weak.');
+        throw Exception('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('Registration failed: The account already exists for that email.');
+        throw Exception('The account already exists for that email.');
+      } else {
+        print('Registration failed: $e');
+        throw e;
+      }
     } catch (e) {
+      // Handle other exceptions
       print('Registration failed: $e');
       throw e;
     }
   }
-
   Future<my_models.User> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);

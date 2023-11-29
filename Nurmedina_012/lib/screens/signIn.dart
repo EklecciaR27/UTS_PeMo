@@ -82,7 +82,7 @@ class _LoginState extends State<Login> {
           width: 700,
           height: 900,
           child: Container(
-            margin: EdgeInsets.only(top: 8, left: 42),
+            margin: EdgeInsets.only(top: 50, left: 42),
             child: Text(
               "Welcome Back.\nto Flutix",
               style: TextStyle(
@@ -209,10 +209,7 @@ class _LoginState extends State<Login> {
                               ? SizedBox(
                                   width: 250,
                                   height: 40,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
+                                  
                                 )
                               : Text("Sign In"),
                           style: ButtonStyle(

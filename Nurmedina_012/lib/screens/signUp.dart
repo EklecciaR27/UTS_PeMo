@@ -33,11 +33,15 @@ class _RegisState extends State<Regis> {
     final confirmPassword = _ctrlConfirmPassword.value.text;
     final foto = '';
 
-    if (password != confirmPassword) {
-      // Passwords do not match
-      // Handle this case as needed, e.g., show an error message.
-      return;
-    }
+      if (password != confirmPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: Passwords do not match. Please make sure your passwords match.'),
+          ),
+        );
+        return;
+      }
+
 
     setState(() => _loading = true);
 
@@ -258,11 +262,7 @@ class _RegisState extends State<Regis> {
                           child: _loading
                               ? SizedBox(
                                   width: 250,
-                                  height: 40,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
+                                  height: 40
                                 )
                               : Text("Submit"),
                           style: ButtonStyle(
