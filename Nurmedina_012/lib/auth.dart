@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import '../models/user.dart' as my_models;
 import '../models/topupAmount.dart' as my_topUp;
 
-class Auth extends ChangeNotifier{
+class Auth extends ChangeNotifier {
   final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-   Future<my_models.User> regis(String fullName, String email, String password, String confirmPassword, String foto) async {
+  Future<my_models.User> regis(String fullName, String email, String password,
+      String confirmPassword, String foto) async {
     if (password != confirmPassword) {
       throw Exception("Passwords do not match");
     }
@@ -42,7 +43,8 @@ class Auth extends ChangeNotifier{
         print('Registration failed: The password provided is too weak.');
         throw Exception('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('Registration failed: The account already exists for that email.');
+        print(
+            'Registration failed: The account already exists for that email.');
         throw Exception('The account already exists for that email.');
       } else {
         print('Registration failed: $e');
@@ -54,20 +56,22 @@ class Auth extends ChangeNotifier{
       throw e;
     }
   }
+
   Future<my_models.User> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
 
       firebase_auth.User? user = _auth.currentUser;
 
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(email).get();
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(email).get();
 
       return my_models.User(
-          fullName: userDoc.get('fullName'),
-          email: userDoc.get('email'),
-          password: '',
-          confirmPassword: '',
-          foto: '', 
+        fullName: userDoc.get('fullName'),
+        email: userDoc.get('email'),
+        password: '',
+        confirmPassword: '',
+        foto: '',
       );
     } catch (e) {
       print('Login failed: $e');
@@ -86,7 +90,7 @@ class Auth extends ChangeNotifier{
     }
   }
 
-    Future<void> updateUserPhotoUrl(String photoUrl) async {
+  Future<void> updateUserPhotoUrl(String photoUrl) async {
     try {
       var user = _auth.currentUser;
       if (user != null) {
@@ -98,22 +102,21 @@ class Auth extends ChangeNotifier{
       print('Error updating user photo URL: $e');
     }
   }
-Future<void> updateUserPhotoUrlInFirestore(
-  User user,
-  String photoUrl,
-  String fotoID,
-) async {
-  try {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.email) // Menggunakan uid sebagai referensi unik
-        .update({
-      'foto': fotoID,
-    });
-  } catch (e) {
-    print('Error updating user photo URL in Firestore: $e');
+
+  Future<void> updateUserPhotoUrlInFirestore(
+    User user,
+    String photoUrl,
+    String fotoID,
+  ) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.email) // Menggunakan uid sebagai referensi unik
+          .update({
+        'foto': fotoID,
+      });
+    } catch (e) {
+      print('Error updating user photo URL in Firestore: $e');
+    }
   }
-}
-
-
 }

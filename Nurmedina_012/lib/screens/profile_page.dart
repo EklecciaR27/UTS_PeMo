@@ -1,4 +1,5 @@
 // profile_page.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/models/user_data.dart';
 import 'package:provider/provider.dart';
@@ -6,9 +7,11 @@ import 'edit_profile_page.dart';
 import 'my_wallet_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:main/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -17,12 +20,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String? fullName;
   String? email;
+  String? photoUrl;
 
   @override
   void initState() {
     super.initState();
     fetchFullName();
     fetchEmail();
+    fetchPhotoUrl();
     isSelectedList = List.generate(photos.length, (index) => false);
   }
 
@@ -40,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
       print('Error fetching full name: $e');
     }
   }
-  
+
   void fetchEmail() async {
     try {
       var userProvider = Provider.of<UserData>(context, listen: false);
@@ -53,6 +58,29 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     } catch (e) {
       print('Error fetching email: $e');
+    }
+  }
+
+  void fetchPhotoUrl() async {
+    try {
+      final firebase_auth.User? user =
+          FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        String userEmail = user.email!;
+        String fotoID = 'Foto_Profil_$userEmail';
+        final Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('profile_images/$fotoID.jpg');
+
+        String downloadUrl = await storageReference.getDownloadURL();
+
+        setState(() {
+          photoUrl = downloadUrl;
+        });
+      }
+    } catch (e) {
+      print('Error getting image from Firebase Storage: $e');
     }
   }
 
@@ -78,8 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (context) => MyWalletPage(),
           ),
         )
-            .then((result) {
-        });
+            .then((result) {});
         break;
     }
   }
@@ -125,11 +152,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 106,
                 margin: const EdgeInsets.only(top: 120, bottom: 30),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.asset(
-                    "assets/user-avatar.png",
-                    fit: BoxFit.fill,
-                  ),
+                  borderRadius: BorderRadius.circular(53),
+                  child: photoUrl != null
+                      ? Image.network(
+                          photoUrl!,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          "assets/user-avatar.png",
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               Column(
