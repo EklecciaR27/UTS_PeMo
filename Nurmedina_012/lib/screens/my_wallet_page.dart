@@ -50,80 +50,178 @@ class MyWalletPage extends StatelessWidget {
             ),
           ),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: 289,
-                    height: 166,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/Wallet Card.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 22, left: 33),
-                    child: Text(
-                      "Recent Transactions",
-                      style: GoogleFonts.raleway(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 289,
+                      height: 166,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/Wallet Card.png"),
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 380),
-                Container(
-                  width: 250,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => TopupPage()),
-                      );
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          side: BorderSide(
-                            color: Color(0xFF8AB0AB),
-                            width: 2.0,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 22, left: 33),
+                      child: Text(
+                        "Recent Transactions",
+                        style: GoogleFonts.raleway(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xFF8AB0AB)),
                     ),
-                    child: Text(
-                      "Top Up Wallet",
-                      style: GoogleFonts.raleway(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 65, left: 30),
+                          child: Text(
+                            "01",
+                            style: GoogleFonts.raleway(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 50, right: 20),
+                          child: Image.asset(
+                            'assets/posterFilm4.jpg',
+                            width: 110,
+                            height: 160,
+                            fit: BoxFit
+                                .cover, // You can adjust this based on your requirement
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 22),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Cinema",
+                                style: GoogleFonts.raleway(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "XXI City Centrum",
+                                style: GoogleFonts.raleway(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Date",
+                                style: GoogleFonts.raleway(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "01.11.2023",
+                                style: GoogleFonts.raleway(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Hour",
+                                style: GoogleFonts.raleway(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "21.00",
+                                style: GoogleFonts.raleway(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top:180),
+                    child: Container(
+                      width: 250,
+                      height: 40,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => TopupPage()),
+                          );
+                        },
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              side: BorderSide(
+                                color: Color(0xFF8AB0AB),
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.white),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Color(0xFF8AB0AB)),
+                        ),
+                        child: Text(
+                          "Top Up Wallet",
+                          style: GoogleFonts.raleway(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
