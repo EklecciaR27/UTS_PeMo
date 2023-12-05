@@ -575,7 +575,7 @@ class _SelectSeatState extends State<SelectSeat> {
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
                           child: const Text(
-                            'xxx',
+                            '21:10',
                             style: TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
@@ -607,7 +607,7 @@ class _SelectSeatState extends State<SelectSeat> {
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
                           child: const Text(
-                            'xxx',
+                            '1 ROW',
                             style: TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),

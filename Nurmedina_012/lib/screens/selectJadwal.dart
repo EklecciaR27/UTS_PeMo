@@ -52,7 +52,12 @@ class _selectCategoryState extends State<selectCategory> {
                       jadwalProvider.toggleSelectedTime(i);
                     },
                     child: CategoriTimesTile(
-                        catTimes: jadwalProvider.timesCategory[i]),
+                      catTimes: jadwalProvider.timesCategory[i],
+                      isSelected: jadwalProvider.isSelectedTime(i),
+                      toggleSelection: () {
+                        jadwalProvider.toggleSelectedTime(i);
+                      },
+                    ),
                   ),
                 );
               },
@@ -315,16 +320,25 @@ class CategoryPlaceTile3 extends StatelessWidget {
   }
 }
 
-class CategoriTimesTile extends StatelessWidget {
+class CategoriTimesTile extends StatefulWidget {
   final CategoriTimes catTimes;
+  final bool isSelected;
+  final VoidCallback toggleSelection;
 
   CategoriTimesTile({
     Key? key,
     required this.catTimes,
+    required this.isSelected,
+    required this.toggleSelection,
   }) : super(key: key);
 
   @override
-  // bool isSelected = false;
+  State<CategoriTimesTile> createState() => _CategoriTimesTileState();
+}
+
+class _CategoriTimesTileState extends State<CategoriTimesTile> {
+  @override
+  //bool isSelected = false;
 
   // void toggleSelection() {
   //   setState(() {
@@ -334,42 +348,49 @@ class CategoriTimesTile extends StatelessWidget {
   // }
 
   Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: const Color(0xFF3E505B),
-        // Gunakan kondisi isSelected untuk menentukan warna
-      ),
-      padding: const EdgeInsets.all(
-          10), // Tambahkan padding ke konten dalam Container
-      child: Column(
-        children: [
-          Container(
-            width: 50, // Sesuaikan ukuran Container
-            height: 50, // Sesuaikan ukuran Container
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle, // Membuat Container menjadi lingkaran
-              color: Color(0xFF8AB0AB),
-            ),
-            child: Center(
-              child: Text(
-                catTimes.tanggal,
-                style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold), // Ukuran ikon
+    return GestureDetector(
+        onTap: () {
+          widget.toggleSelection();
+        },
+        child: Container(
+          width: 70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: widget.isSelected
+                ? Color.fromARGB(107, 62, 80, 91)
+                : const Color(0xFF3E505B),
+            // Gunakan kondisi isSelected untuk menentukan warna
+          ),
+          padding: const EdgeInsets.all(
+              10), // Tambahkan padding ke konten dalam Container
+          child: Column(
+            children: [
+              Container(
+                width: 50, // Sesuaikan ukuran Container
+                height: 50, // Sesuaikan ukuran Container
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle, // Membuat Container menjadi lingkaran
+                  color: Color(0xFF8AB0AB),
+                ),
+                child: Center(
+                  child: Text(
+                    widget.catTimes.tanggal,
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold), // Ukuran ikon
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(height: 10), // Berikan jarak antara ikon dan teks
+              Text(
+                widget.catTimes.hari,
+                style: const TextStyle(
+                  color: Color(0xFFC0CAAD),
+                  fontSize: 15,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 10), // Berikan jarak antara ikon dan teks
-          Text(
-            catTimes.hari,
-            style: const TextStyle(
-              color: Color(0xFFC0CAAD),
-              fontSize: 15,
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

@@ -22,4 +22,8 @@ class JadwalProvider extends ChangeNotifier {
     _selectedTime!.isSelected = !_selectedTime!.isSelected;
     notifyListeners();
   }
+
+  bool isSelectedTime(int index) {
+    return _timesCategory[index].isSelected;
+  }
 }

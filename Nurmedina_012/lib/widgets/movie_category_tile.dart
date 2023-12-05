@@ -33,18 +33,21 @@ class MovieCategoryTile extends StatelessWidget {
               height: 50,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? const Color(0xFF506868) : const Color(0xFF8AB0AB),
+                color: isSelected
+                    ? const Color(0xFF506868)
+                    : const Color(0xFF8AB0AB),
               ),
               child: Center(
                 child: movieCat.imageCat, // Menggunakan gambar langsung
               ),
-
             ),
             const SizedBox(height: 10),
             Text(
               movieCat.titleCat,
               style: TextStyle(
-                color: isSelected ? const Color(0xFF9BA594) : const Color(0xFFC0CAAD),
+                color: isSelected
+                    ? const Color(0xFF9BA594)
+                    : const Color(0xFFC0CAAD),
                 fontSize: 12,
               ),
             ),
