@@ -6,7 +6,6 @@ import 'package:main/models/topup_service.dart';
 import 'package:main/screens/select_seat.dart';
 import 'package:main/screens/topup.dart';
 import 'package:provider/provider.dart';
-
 import '../models/topup_amount_data.dart';
 
 class detailsTiket extends StatefulWidget {
@@ -47,6 +46,7 @@ class _detailsTiketState extends State<detailsTiket> {
       print('Error fetching top-up amount: $e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final selectedSeatsModel = Provider.of<SelectedSeatsModel>(context);
@@ -96,7 +96,7 @@ class _detailsTiketState extends State<detailsTiket> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 20, 5, 0),
                   child: Image.asset(
-                    'assets/myName.jpg',
+                    'assets/posterFilm1.jpg',
                     width: 149,
                     height: 206,
 
@@ -109,18 +109,28 @@ class _detailsTiketState extends State<detailsTiket> {
                   child: const Column(
                     children: [
                       Text(
-                        "MY NAME",
+                        "NOAH",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 137, 176, 171),
                             fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        "Bintang",
-                        style: TextStyle(
-                            fontSize: 11,
-                            color: Color.fromARGB(255, 137, 176, 171),
-                            fontWeight: FontWeight.bold),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Icon(Icons.star,
+                              size: 25,
+                              color: Color.fromARGB(255, 255, 191, 0)),
+                          Icon(Icons.star,
+                              size: 25,
+                              color: Color.fromARGB(255, 255, 191, 0)),
+                          Icon(Icons.star,
+                              size: 25,
+                              color: Color.fromARGB(255, 255, 191, 0)),
+                          Icon(Icons.star,
+                              size: 25,
+                              color: Color.fromARGB(255, 255, 191, 0)),
+                        ],
                       ),
                     ],
                   ),
@@ -152,7 +162,7 @@ class _detailsTiketState extends State<detailsTiket> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(90, 10, 0, 0),
                       child: const Text(
-                        "2109106030",
+                        "2120828390",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),
@@ -216,7 +226,7 @@ class _detailsTiketState extends State<detailsTiket> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(145, 10, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(190, 10, 0, 0),
                       child: Text(
                         "${selectedSeatsModel.selectedSeats.join(',')}",
                         style: const TextStyle(
@@ -238,9 +248,9 @@ class _detailsTiketState extends State<detailsTiket> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(183, 10, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(150, 10, 0, 0),
                       child: const Text(
-                        "xxxxxx",
+                        "Rp 100.000",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),
@@ -260,9 +270,9 @@ class _detailsTiketState extends State<detailsTiket> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(180, 10, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(150, 10, 0, 0),
                       child: const Text(
-                        "xxxxxx",
+                        "Rp 100.000",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),
@@ -296,7 +306,7 @@ class _detailsTiketState extends State<detailsTiket> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(120, 0, 0, 0),
                     child: Text(
-                     "Rp. $nominal",
+                      "Rp. $nominal",
                       style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 255, 255, 255)),
