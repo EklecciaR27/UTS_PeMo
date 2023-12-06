@@ -6,7 +6,7 @@ import 'confirmation_page.dart';
 import 'signUp.dart';
 import '../models/user.dart' as my_models;
 
-class Login extends StatefulWidget {
+class Login extends StatefulWidget { //class login w/ statefull = bisa berubah
   const Login({Key? key}) : super(key: key);
 
   @override
@@ -14,36 +14,36 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _loading = false;
+  bool _loading = false; //progres defaulnya false 
 
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _ctrlEmail = TextEditingController();
+  final TextEditingController _ctrlEmail = TextEditingController(); //textfield
   final TextEditingController _ctrlPassword = TextEditingController();
 
-  handleSubmit() async {
-  if (!_formKey.currentState!.validate()) return;
-  final email = _ctrlEmail.value.text;
+  handleSubmit() async {//method submit
+  if (!_formKey.currentState!.validate()) return; //cek apakah formulir valid
+  final email = _ctrlEmail.value.text; //ambil nilai inputan texfield
   final password = _ctrlPassword.value.text;
-  setState(() => _loading = true);
+  setState(() => _loading = true); //memperlihatkan progres apk
 
   try {
-    // Menggunakan Provider.of untuk mendapatkan instance dari AuthProvider
+    //proses login w metode login di auth yg disimpan dalam loggedInUser
     my_models.User? loggedInUser = await Provider.of<Auth>(context, listen: false).login(email, password);
     
-
+    //cek apakah loggedInUser tdk null
     if (loggedInUser != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Welcome ${loggedInUser.fullName}'),
+          content: Text('Welcome ${loggedInUser.fullName}'), //allert 
         ),
 
       );
 
-      // Menggunakan Provider.of untuk mengakses UserDataProvider dan menambahkan user
+      // proses menyimpan data user yang login ke dalam data loka UserData tdi w/ method addUser yg berisi loggedInUser
       Provider.of<UserData>(context, listen: false).addUser(loggedInUser);
 
-      // Navigasi ke halaman konfirmasi atau halaman lain yang sesuai
+      // navigasi ke halaman konfirmasi atau halaman lain yang sesuai
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ConfirmationPage()),
@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Failed to login. Please check your credentials."),
+          content: Text("Failed to login. Please check your credentials."),//jika loggedInUser null
         ),
       );
     }
@@ -59,16 +59,13 @@ class _LoginState extends State<Login> {
     print("Error: $e");
 
     String errorMessage = "Failed to login. Please check your credentials.";
-
-    // ...
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(errorMessage),
       ),
     );
-  } finally {
-    setState(() => _loading = false);
+  } finally {//jika try sudah
+    setState(() => _loading = false); //progres di false kan lagi
   }
 }
 

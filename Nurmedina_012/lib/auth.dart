@@ -1,35 +1,38 @@
 // auth.dart
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:cloud_firestore/cloud_firestore.dart';//library utk kelola data di firestroe db
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth; //utk kelola data w/ firebases autentikasi >> db autentikasi
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart' as my_models;
-import '../models/topupAmount.dart' as my_topUp;
+// import '../models/topupAmount.dart' as my_topUp;
 
-class Auth extends ChangeNotifier {
-  final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class Auth extends ChangeNotifier { //class auth utk kelola di firebase authnya
+  final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance; //variabel utk proses autentikasi ke dlm db autentikasi
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance; ////variabel utk proses autentikasi ke dlm db firestore
 
-  Future<my_models.User> regis(String fullName, String email, String password,
+//method utk add user dgn fungsi regis
+  Future<my_models.User> regis(String fullName, String email, String password,//parameter
       String confirmPassword, String foto) async {
-    if (password != confirmPassword) {
+    
+    if (password != confirmPassword) { //cek password == confirm
       throw Exception("Passwords do not match");
     }
 
-    try {
+    try {//buat user baru pake firebase auth dgn data email + pw
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-
+      //stlah berhasil, lanjut ngambil data user di autentikasi fb utk >> firestore
       firebase_auth.User? user = _auth.currentUser;
 
+      //lalu proses nyimpan data user dgn smua property ke dalam firestore
       await FirebaseFirestore.instance.collection('users').doc(email).set({
         'fullName': fullName,
         'email': email,
         'foto': foto,
       });
-
+//kembalikan nilai user baru
       return my_models.User(
         fullName: fullName,
         email: email,
@@ -37,7 +40,8 @@ class Auth extends ChangeNotifier {
         confirmPassword: confirmPassword,
         foto: foto,
       );
-    } on FirebaseAuthException catch (e) {
+      //error handling dulu sblm proses auth
+    } on FirebaseAuthException catch (e) { //error handling dri firebase auth
       // Handle Firebase authentication exceptions
       if (e.code == 'weak-password') {
         print('Registration failed: The password provided is too weak.');
@@ -57,15 +61,17 @@ class Auth extends ChangeNotifier {
     }
   }
 
-  Future<my_models.User> login(String email, String password) async {
+//methoe login dgn fungsi login
+  Future<my_models.User> login(String email, String password) async { //parameter
     try {
+      //login w/ auth
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-
+      //ngambil data user di autentikasi fb
       firebase_auth.User? user = _auth.currentUser;
-
+      //ngambil doc data user dri firestore by email
       DocumentSnapshot userDoc =
           await _firestore.collection('users').doc(email).get();
-
+      //return data user dri firestore
       return my_models.User(
         fullName: userDoc.get('fullName'),
         email: userDoc.get('email'),
@@ -73,12 +79,12 @@ class Auth extends ChangeNotifier {
         confirmPassword: '',
         foto: '',
       );
-    } catch (e) {
+    } catch (e) { //erro handling jika try gagal
       print('Login failed: $e');
 
       String errorMessage = "Failed to login. Please check your credentials.";
 
-      if (e is FirebaseAuthException) {
+      if (e is FirebaseAuthException) {//error handling dri  fb auth
         if (e.code == 'user-not-found') {
           errorMessage = 'No user found for that email.';
         } else if (e.code == 'wrong-password') {
@@ -90,6 +96,7 @@ class Auth extends ChangeNotifier {
     }
   }
 
+//bukan dina
   Future<void> updateUserPhotoUrl(String photoUrl) async {
     try {
       var user = _auth.currentUser;

@@ -10,12 +10,13 @@ import 'package:main/models/user_data.dart';
 import 'package:main/screens/selectJadwal.dart';
 import 'package:main/screens/signIn.dart';
 import 'package:main/screens/signUp.dart';
+import 'package:main/screens/splashPage.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  await Firebase.initializeApp(//inisialisasi firebase utk apk
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -23,13 +24,13 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => Auth()), // Provider for authentication
+            create: (_) => Auth()), //provider untuk auth /nyimpan data di auth dan firestore
         ChangeNotifierProvider(
-            create: (_) => UserData()), // Provider for user data
+            create: (_) => UserData()), //provider utk nyimpan data user secara lokal di UserData 
         ChangeNotifierProvider(
-            create: (_) => TopupData()), // Provider for user data
+            create: (_) => TopupData()), 
         ChangeNotifierProvider(
-          create: (context) => SelectedSeatsModel(), // provider for seat data
+          create: (context) => SelectedSeatsModel(),  
         ),
         ChangeNotifierProvider(
           create: (context) => JadwalProvider(),
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const selectCategory()
+        home: const SplashPage()
         // StreamBuilder<User?>(
         //   stream: FirebaseAuth.instance.authStateChanges(),
         //   builder: (context, snapshot) {

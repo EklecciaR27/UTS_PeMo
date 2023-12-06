@@ -1,28 +1,29 @@
-import 'dart:collection';
-import 'package:flutter/material.dart';
-import 'user.dart';
+import 'dart:collection';//libararu utk UnmodifiableListView
+import 'package:flutter/material.dart'; //libarary utk widget ui
+import 'user.dart';//import file user >> class
 
-class UserData extends ChangeNotifier {
-  final List<User> _myUsers = [];
+class UserData extends ChangeNotifier {//class utk kelola data user
+  final List<User> _myUsers = []; //variabel _myUsers utk nyimpan data User
 
   UnmodifiableListView<User> get myUsers => UnmodifiableListView(_myUsers);
 
-  int get userCount {
+
+  int get userCount { //getter utk jumlah user //INI KEKNYA GA KEPAKE
     return _myUsers.length;
   }
 
-  void addUser(User newUser) {
+  void addUser(User newUser) { //method utk nambah data user newUser>> ke list _myUsers
     _myUsers.add(newUser);
     notifyListeners();
   }
+//INI KEKNYA GA KEPAKE
+  void updateUserByEmail(String userEmail, User updatedUser) { //update user berdasarkan email
+    int index = _myUsers.indexWhere((user) => user.email == userEmail); //cari indeks user di dalam list berdasarkan email
 
-  void updateUserByEmail(String userEmail, User updatedUser) {
-    int index = _myUsers.indexWhere((user) => user.email == userEmail);
-
-    if (index != -1) {
-      _myUsers[index] = updatedUser;
+    if (index != -1) { //jika indeks dengan alamat email yg diberi didapat
+      _myUsers[index] = updatedUser;//ganti  user lama w/ informasi terupdate
       notifyListeners();
-    } else {
+    } else {//jika tdk ada
       print('User with email $userEmail not found.');
     }
   }

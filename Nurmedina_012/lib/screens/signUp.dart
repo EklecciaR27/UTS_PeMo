@@ -17,24 +17,24 @@ class _RegisState extends State<Regis> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _ctrlFullName = TextEditingController();
+  final TextEditingController _ctrlFullName = TextEditingController(); //tetx field
   final TextEditingController _ctrlEmail = TextEditingController();
   final TextEditingController _ctrlPassword = TextEditingController();
   final TextEditingController _ctrlConfirmPassword = TextEditingController();
 
-  Auth _auth = Auth(); // Create an instance of the Auth class
+  Auth _auth = Auth(); 
 
   handleSubmit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return; //cek apakah form valid
 
-    final fullName = _ctrlFullName.value.text;
+    final fullName = _ctrlFullName.value.text;//ambil nilai inputan textfield
     final email = _ctrlEmail.value.text;
     final password = _ctrlPassword.value.text;
     final confirmPassword = _ctrlConfirmPassword.value.text;
     final foto = '';
 
-      if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
+      if (password != confirmPassword) {//cek apakah pw == confirm
+        ScaffoldMessenger.of(context).showSnackBar( //jika tdk erro handling
           SnackBar(
             content: Text('Error: Passwords do not match. Please make sure your passwords match.'),
           ),
@@ -42,32 +42,29 @@ class _RegisState extends State<Regis> {
         return;
       }
 
-
-    setState(() => _loading = true);
+    setState(() => _loading = true); //jika tdk progress di atru true
 
     try {
-      // Call the regis method with only email and password
+      //proses regis w/ metode regis di auth
       await _auth.regis(fullName, email, password, confirmPassword, foto);
 
-      // Create a new User object
+    //buat objek user baru utk disimpan secara lokal di UserData
       User newUser = User(
         fullName: fullName,
         email: email,
         password: password,
         confirmPassword: confirmPassword,
-        foto: 'Nanti', // Placeholder value
+        foto: 'Nanti', 
       );
-
-      // Add the new user to the UserData using Provider
+      //proses penyimpanan data user ke dalam UserData   
       Provider.of<UserData>(context, listen: false).addUser(newUser);
 
-      // After successful registration, you can perform other actions here
-    } catch (e) {
-      // Handle registration errors here
+     
+    } catch (e) {//error handling
       print('Registration failed: $e');
-      // You can add error handling logic or display error messages to the user here
-    } finally {
-      setState(() => _loading = false);
+    
+    } finally {//jika behasil
+      setState(() => _loading = false); //progress di false kan lagi
     }
   }
 
