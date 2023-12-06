@@ -190,6 +190,23 @@ void _submitTopup(BuildContext context) async {
             ),
           ),
           SizedBox(height: 20),
+           Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Row(
+              children: [
+                Text(
+                  "Email : $email",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 138, 176, 171),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Row(
@@ -209,6 +226,7 @@ void _submitTopup(BuildContext context) async {
           SizedBox(
             width: 300,
             child: TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: "IDR.",
                 hintStyle: TextStyle(color: Colors.grey),
@@ -231,22 +249,7 @@ void _submitTopup(BuildContext context) async {
             ),
           ),
           SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: Row(
-              children: [
-                Text(
-                  "Email : $email",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 138, 176, 171),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
+         
           // SizedBox(
           //   width: 300,
           //   child: TextFormField(
