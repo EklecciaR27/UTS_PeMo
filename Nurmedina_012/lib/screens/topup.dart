@@ -81,6 +81,8 @@ void _submitTopup(BuildContext context) async {
           email: email,
           fullName: fullName,
         ));
+
+        _showTopUpSuccessDialog(context);
       } else {
         // Jika email belum ada di Firestore, tambahkan top-up baru ke dalam provider dan Firestore
         TopupAmount newTopup = TopupAmount(
@@ -98,11 +100,35 @@ void _submitTopup(BuildContext context) async {
             .set(newTopup.toMap());
       }
     }
+
+
   // } else {
   //   // Tangani kesalahan validasi
   //   print("Nominal harus lebih dari 0");
   // }
 }
+
+
+    void _showTopUpSuccessDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Top Up Successful'),
+        content: Text('Your top-up was successful.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 
     void initState() {

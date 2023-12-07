@@ -496,7 +496,7 @@ class _SelectSeatState extends State<SelectSeat> {
                             child: Container(
                               padding: const EdgeInsets.fromLTRB(30, 10, 5, 0),
                               child: Image.asset(
-                                'assets/myName.jpg',
+                                'assets/posterFilm1.jpg',
                                 width: 102,
                                 height: 141,
                                 //color: const Color.fromARGB(255, 192, 203, 173),
@@ -575,7 +575,7 @@ class _SelectSeatState extends State<SelectSeat> {
                           ),
                           padding: const EdgeInsets.fromLTRB(20, 3, 20, 3),
                           child: const Text(
-                            '21:10',
+                            '18:00',
                             style: TextStyle(
                               fontSize: 15,
                               color: Color.fromARGB(255, 255, 255, 255),
