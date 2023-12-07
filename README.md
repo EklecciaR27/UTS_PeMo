@@ -1,5 +1,6 @@
 # UTS_PeMo
-UTS Pemrograman Mobile
+UTS Pemrograman Mobile Kelompok 3 
+FLUTIX APPS
 
 ## 2109106012 - Nurmedina Maulidiah
 ### BackEnd & FrontEnd
