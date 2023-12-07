@@ -15,9 +15,8 @@ class TopupPage extends StatefulWidget {
 class _TopupPageState extends State<TopupPage> {
   final TextEditingController _amountController = TextEditingController();
   //final TextEditingController _emailController = TextEditingController(); // Menambahkan controller untuk field email
-String fullName = '';
-String email = '';
-
+  String fullName = '';
+  String email = '';
 
   @override
   void dispose() {
@@ -30,35 +29,35 @@ String email = '';
     print('Amount : ${_amountController.text}');
   }
 
-void _submitTopup(BuildContext context) async {
-  double nominal = double.tryParse(_amountController.text) ?? 0.0;
+  void _submitTopup(BuildContext context) async {
+    double nominal = double.tryParse(_amountController.text) ?? 0.0;
 
-  if (nominal > 0) {
-    // Akses provider untuk menambahkan top-up baru
-    TopupData topupData = Provider.of<TopupData>(context, listen: false);
+    if (nominal > 0) {
+      // Akses provider untuk menambahkan top-up baru
+      TopupData topupData = Provider.of<TopupData>(context, listen: false);
 
-    // Periksa apakah email sudah ada di dalam provider
-    // bool emailExists = topupData.myTopups.any((topup) => topup.email == email);
+      // Periksa apakah email sudah ada di dalam provider
+      // bool emailExists = topupData.myTopups.any((topup) => topup.email == email);
 
-    // if (emailExists) {
-    //   // Jika email sudah ada di provider, tambahkan nominal
-    //   TopupAmount existingTopup = topupData.myTopups.firstWhere((topup) => topup.email == email);
-    //   double newNominal = existingTopup.nominal + nominal;
+      // if (emailExists) {
+      //   // Jika email sudah ada di provider, tambahkan nominal
+      //   TopupAmount existingTopup = topupData.myTopups.firstWhere((topup) => topup.email == email);
+      //   double newNominal = existingTopup.nominal + nominal;
 
-    //   // Perbarui top-up yang sudah ada di dalam provider
-    //   topupData.updateTopUp(TopupAmount(
-    //     nominal: newNominal,
-    //     email: existingTopup.email,
-    //     fullName: existingTopup.fullName,
-    //   ));
+      //   // Perbarui top-up yang sudah ada di dalam provider
+      //   topupData.updateTopUp(TopupAmount(
+      //     nominal: newNominal,
+      //     email: existingTopup.email,
+      //     fullName: existingTopup.fullName,
+      //   ));
 
-    //   // Perbarui data di Firestore
-    //   await FirebaseFirestore.instance
-    //       .collection('topup_amount')
-    //       .doc(existingTopup.email)
-    //       .update({'nominal': newNominal});
-    // } else {
-    //   // Jika email belum ada di provider, cek di Firestore
+      //   // Perbarui data di Firestore
+      //   await FirebaseFirestore.instance
+      //       .collection('topup_amount')
+      //       .doc(existingTopup.email)
+      //       .update({'nominal': newNominal});
+      // } else {
+      //   // Jika email belum ada di provider, cek di Firestore
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('topup_amount')
           .doc(email)
@@ -83,6 +82,7 @@ void _submitTopup(BuildContext context) async {
         ));
 
         _showTopUpSuccessDialog(context);
+        
       } else {
         // Jika email belum ada di Firestore, tambahkan top-up baru ke dalam provider dan Firestore
         TopupAmount newTopup = TopupAmount(
@@ -101,42 +101,39 @@ void _submitTopup(BuildContext context) async {
       }
     }
 
+    // } else {
+    //   // Tangani kesalahan validasi
+    //   print("Nominal harus lebih dari 0");
+    // }
+  }
 
-  // } else {
-  //   // Tangani kesalahan validasi
-  //   print("Nominal harus lebih dari 0");
-  // }
-}
+  void _showTopUpSuccessDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Top Up Successful'),
+          content: Text('Your top-up was successful.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
+  void initState() {
+    super.initState();
+    fetchEmail();
+    fetchFullName();
+  }
 
-    void _showTopUpSuccessDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Top Up Successful'),
-        content: Text('Your top-up was successful.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-
-    void initState() {
-        super.initState();
-        fetchEmail();
-        fetchFullName();
-      }
-    void fetchEmail() async {
+  void fetchEmail() async {
     try {
       var userProvider = Provider.of<UserData>(context, listen: false);
       // Mengambil data pengguna dari UserDataProvider
@@ -152,7 +149,7 @@ void _submitTopup(BuildContext context) async {
     }
   }
 
-   void fetchFullName() async {
+  void fetchFullName() async {
     try {
       // Menggunakan Provider.of untuk mendapatkan instance dari UserDataProvider
       var userProvider = Provider.of<UserData>(context, listen: false);
@@ -168,7 +165,6 @@ void _submitTopup(BuildContext context) async {
       print('Error fetching full name: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -186,8 +182,8 @@ void _submitTopup(BuildContext context) async {
                     backgroundColor: Color.fromRGBO(0, 0, 0, 1),
                   ),
                   onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    Navigator.pop(context);
+                  },
                   child: Container(
                     child: Icon(
                       Icons.arrow_back,
@@ -216,7 +212,7 @@ void _submitTopup(BuildContext context) async {
             ),
           ),
           SizedBox(height: 20),
-           Padding(
+          Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Row(
               children: [
@@ -275,7 +271,7 @@ void _submitTopup(BuildContext context) async {
             ),
           ),
           SizedBox(height: 20),
-         
+
           // SizedBox(
           //   width: 300,
           //   child: TextFormField(
@@ -305,7 +301,7 @@ void _submitTopup(BuildContext context) async {
             height: 40,
             width: 140,
             child: ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 _submitTopup(context);
               },
               style: ElevatedButton.styleFrom(

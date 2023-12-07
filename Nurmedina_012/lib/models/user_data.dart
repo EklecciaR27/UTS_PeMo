@@ -8,7 +8,7 @@ class UserData extends ChangeNotifier {//class utk kelola data user
   UnmodifiableListView<User> get myUsers => UnmodifiableListView(_myUsers);
 
 
-  int get userCount { //getter utk jumlah user //INI KEKNYA GA KEPAKE
+  int get userCount { //getter utk jumlah user 
     return _myUsers.length;
   }
 
@@ -16,7 +16,7 @@ class UserData extends ChangeNotifier {//class utk kelola data user
     _myUsers.add(newUser);
     notifyListeners();
   }
-//INI KEKNYA GA KEPAKE
+
   void updateUserByEmail(String userEmail, User updatedUser) { //update user berdasarkan email
     int index = _myUsers.indexWhere((user) => user.email == userEmail); //cari indeks user di dalam list berdasarkan email
 
