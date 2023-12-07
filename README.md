@@ -28,6 +28,6 @@ UTS Pemrograman Mobile
 
 ## 2109106055 - Wanda Nurhalizah 
 ### BackEnd & FrontEnd
-Profile
-Edit Profile
-My Wallets
+- Profile
+- Edit Profile
+- My Wallets
