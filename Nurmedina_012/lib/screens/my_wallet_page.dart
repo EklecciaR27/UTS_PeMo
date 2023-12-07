@@ -108,7 +108,7 @@ class MyWalletPage extends StatelessWidget {
                             width: 110,
                             height: 160,
                             fit: BoxFit
-                                .cover, // You can adjust this based on your requirement
+                                .cover,
                           ),
                         ),
                         Padding(
