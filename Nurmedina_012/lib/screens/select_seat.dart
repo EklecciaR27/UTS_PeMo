@@ -517,7 +517,7 @@ class _SelectSeatState extends State<SelectSeat> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(50, 0, 10, 0),
                           child: const Text(
-                            'Rp 300.000',
+                            'Rp 40.000',
                             style: TextStyle(
                               fontSize: 18,
                               color: Color.fromARGB(255, 192, 203, 173),

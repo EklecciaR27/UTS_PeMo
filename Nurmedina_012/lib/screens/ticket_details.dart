@@ -130,6 +130,9 @@ class _detailsTiketState extends State<detailsTiket> {
                           Icon(Icons.star,
                               size: 25,
                               color: Color.fromARGB(255, 255, 191, 0)),
+                          Icon(Icons.star,
+                              size: 25,
+                              color: Color.fromARGB(255, 255, 191, 0)),
                         ],
                       ),
                     ],
@@ -250,7 +253,7 @@ class _detailsTiketState extends State<detailsTiket> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(150, 10, 0, 0),
                       child: const Text(
-                        "Rp 100.000",
+                        "Rp 20.000",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 192, 203, 173)),

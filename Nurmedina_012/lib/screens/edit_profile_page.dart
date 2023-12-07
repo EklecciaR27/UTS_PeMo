@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:main/auth.dart';
+import 'profile_page.dart';
 import 'package:main/models/profile_service.dart';
 import 'package:main/models/user.dart' as my_models;
 import 'package:main/models/user_data.dart';
@@ -80,7 +81,8 @@ class _EditProfileFormState extends State<EditProfilePage> {
           );
 
           userProvider.updateUserByEmail(userEmail, updatedUser);
-          await profileService.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+          await profileService.updateUserPhotoUrlInFirestore(
+              user, photoUrl, fotoID);
 
           setState(() {
             _image = img;
@@ -154,7 +156,7 @@ class _EditProfileFormState extends State<EditProfilePage> {
                         );
                       } else if (snapshot.hasData && snapshot.data != null) {
                         return Container(
-                          width: 110, // Sesuaikan dengan kebutuhan Anda
+                          width: 110,
                           height: 110,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -386,6 +388,11 @@ class _EditProfileFormState extends State<EditProfilePage> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
+                        );
                       },
                       style: ButtonStyle(
                         shape:
