@@ -27,7 +27,7 @@ FLUTIX APPS
 - Top Up 
 - Wallet Top Up
 
-## 2109106055 - Wanda Nurhalizah 
+## 2109106055 - Wanda Nurhaliza
 ### BackEnd & FrontEnd
 - Profile
 - Edit Profile
