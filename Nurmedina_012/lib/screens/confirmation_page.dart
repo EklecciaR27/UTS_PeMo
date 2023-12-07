@@ -28,7 +28,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   void initState() {
     super.initState();
     fetchFullName();
-    // _uploadImageToFirebase(_image);
+    _getFirebaseStoragePhotoUrl();
   }
 
   Future<void> fetchFullName() async {
@@ -97,8 +97,6 @@ void selectImage() async {
   }
 }
 
-
-
   Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
     try {
       final storage = FirebaseStorage.instance;
@@ -154,7 +152,7 @@ void selectImage() async {
           _image = imageBytes;
         });
       } else {
-        print('Error: User is null.');
+        print('Error: tidak ada');
       }
     } catch (e) {
       print('Error uploading image: $e');

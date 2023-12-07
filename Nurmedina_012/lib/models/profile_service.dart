@@ -6,19 +6,6 @@ class ProfileService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
-  Future<void> updateUserPhotoUrl(String photoUrl) async {
-    try {
-      var user = _auth.currentUser;
-      if (user != null) {
-        await user.updatePhotoURL(photoUrl);
-        await user.reload();
-        user = _auth.currentUser;
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
   Future<void> updateUserPhotoUrlInFirestore(
     User user,
     String photoUrl,
