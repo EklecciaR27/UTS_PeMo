@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:main/auth.dart';
+import 'package:main/models/profile_service.dart';
 import 'package:main/models/user.dart' as my_models;
-import 'package:main/models/firestoreservice.dart';
 import 'package:main/models/user_data.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -26,30 +26,8 @@ class _EditProfileFormState extends State<EditProfilePage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPW = TextEditingController();
   final TextEditingController _controllerKonfirm = TextEditingController();
-  final FirestoreService _firestoreService = FirestoreService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Uint8List? _image;
-
-  Future<void> _updateUserProfile() async {
-    print('Updating user profile...');
-    String? userId = _auth.currentUser?.uid;
-
-    if (userId != null) {
-      print('User ID: $userId');
-      String newFullName = _controllerFullName.text;
-
-      try {
-        await _firestoreService.updateFullName(userId, newFullName);
-        print('Nama lengkap berhasil diperbarui');
-        Navigator.pop(context, true);
-      } catch (e) {
-        print('Error updating full name: $e');
-        Navigator.pop(context, false);
-      }
-    } else {
-      print('User ID not found. Make sure the user is authenticated.');
-    }
-  }
 
   Future<String> _uploadImageToFirebase(Uint8List imageBytes) async {
     try {
@@ -84,7 +62,7 @@ class _EditProfileFormState extends State<EditProfilePage> {
 
     if (img != null && user != null) {
       try {
-        var auth = Auth();
+        var profileService = ProfileService();
         String photoUrl = await _uploadImageToFirebase(img);
 
         var userProvider = Provider.of<UserData>(context, listen: false);
@@ -102,7 +80,7 @@ class _EditProfileFormState extends State<EditProfilePage> {
           );
 
           userProvider.updateUserByEmail(userEmail, updatedUser);
-          await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+          await profileService.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
 
           setState(() {
             _image = img;
@@ -408,7 +386,6 @@ class _EditProfileFormState extends State<EditProfilePage> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        _updateUserProfile();
                       },
                       style: ButtonStyle(
                         shape:

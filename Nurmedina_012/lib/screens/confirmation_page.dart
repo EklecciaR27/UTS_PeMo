@@ -1,16 +1,11 @@
-import 'dart:io';
 import 'dart:typed_data';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:main/auth.dart';
-import 'package:main/models/topupAmount.dart';
-import 'package:main/models/topup_amount_data.dart';
+import 'package:main/models/profile_service.dart';
 import 'package:main/models/user_data.dart';
-import '../models/user.dart';
 import '../widgets/bottom_nav.dart';
-import 'home_movie_page.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart' as my_models;
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -47,7 +42,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
         });
       }
     } catch (e) {
-      print('Error fetching full name: $e');
+      print('Error: $e');
     }
   }
 
@@ -58,7 +53,7 @@ Future<Uint8List?> _pickImage(ImageSource source) async {
     final imageBytes = await pickedFile.readAsBytes();
     return imageBytes;
   } else {
-    print("No image selected");
+    print("No image selected!");
     return null;
   }
 }
@@ -70,7 +65,7 @@ void selectImage() async {
 
   if (img != null && user != null) {
     try {
-      var auth = Auth();
+      var profileService = ProfileService();
       String photoUrl = await _uploadImageToFirebase(img);
 
       var userProvider = Provider.of<UserData>(context, listen: false);
@@ -88,16 +83,16 @@ void selectImage() async {
         );
 
         userProvider.updateUserByEmail(userEmail, updatedUser);
-        await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+        await profileService.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
 
         setState(() {
           _image = img;
         });
       } else {
-        print('Error: User does not have a valid email.');
+        print('Error: email user tidak valid');
       }
     } catch (e) {
-      print('Error selecting image: $e');
+      print('Error : $e');
     }
   }
 }
@@ -122,11 +117,11 @@ void selectImage() async {
         String downloadUrl = await storageReference.getDownloadURL();
         return downloadUrl;
       } else {
-        print('Error: User is null.');
+        print('Error: User tidak ada');
         return '';
       }
     } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
+      print('Error : $e');
       throw e;
     }
   }
@@ -134,7 +129,7 @@ void selectImage() async {
   
   Future<void> _uploadAndSaveImage(Uint8List imageBytes) async {
     try {
-      var auth = Auth();
+      var profileService = ProfileService();
       String photoUrl = await _uploadImageToFirebase(imageBytes);
 
       var userProvider = Provider.of<UserData>(context, listen: false);
@@ -153,7 +148,7 @@ void selectImage() async {
         );
 
         userProvider.updateUserByEmail(userEmail, updatedUser);
-        await auth.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
+        await profileService.updateUserPhotoUrlInFirestore(user, photoUrl, fotoID);
 
         setState(() {
           _image = imageBytes;
@@ -165,7 +160,6 @@ void selectImage() async {
       print('Error uploading image: $e');
     }
   }
-
 
   Future<String> _getFirebaseStoragePhotoUrl() async {
     try {
@@ -182,7 +176,7 @@ void selectImage() async {
         return '';
       }
     } catch (e) {
-      print('Error getting image from Firebase Storage: $e');
+      print('Error: $e');
       return '';
     }
   }

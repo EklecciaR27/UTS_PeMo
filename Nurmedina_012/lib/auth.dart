@@ -96,34 +96,4 @@ class Auth extends ChangeNotifier { //class auth utk kelola di firebase authnya
     }
   }
 
-//bukan dina
-  Future<void> updateUserPhotoUrl(String photoUrl) async {
-    try {
-      var user = _auth.currentUser;
-      if (user != null) {
-        await user.updatePhotoURL(photoUrl);
-        await user.reload();
-        user = _auth.currentUser; // Refresh user data
-      }
-    } catch (e) {
-      print('Error updating user photo URL: $e');
-    }
-  }
-
-  Future<void> updateUserPhotoUrlInFirestore(
-    User user,
-    String photoUrl,
-    String fotoID,
-  ) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.email) // Menggunakan uid sebagai referensi unik
-          .update({
-        'foto': fotoID,
-      });
-    } catch (e) {
-      print('Error updating user photo URL in Firestore: $e');
-    }
-  }
 }

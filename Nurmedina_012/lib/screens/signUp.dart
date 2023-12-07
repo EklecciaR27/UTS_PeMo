@@ -255,7 +255,13 @@ class _RegisState extends State<Regis> {
                         ),
                         SizedBox(height: 30),
                         ElevatedButton(
-                          onPressed: () => handleSubmit(),
+                          onPressed: () {
+                            handleSubmit();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                            );
+                          },
                           child: _loading
                               ? SizedBox(
                                   width: 250,

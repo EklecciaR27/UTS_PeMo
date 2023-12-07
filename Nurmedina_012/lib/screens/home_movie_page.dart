@@ -22,9 +22,7 @@ class HomeMoviePage extends StatefulWidget {
 
 class _HomeMoviePageState extends State<HomeMoviePage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  // final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   late TopupService _topupService;
-  // late UserService _userService;
 
   String? fullName = '';
   double? nominal = 0.0;
@@ -36,9 +34,8 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   void initState() {
     super.initState();
     _topupService = TopupService();
-    //  _userService = UserService();
     selectedCategory = null;
-    fetchData(); // Combine both fetching operations in a new method
+    fetchData();
   }
 
   void onCategorySelected(bool isSelected, MovieCategory category) {
@@ -69,7 +66,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         });
       }
     } catch (e) {
-      print('Error fetching full name: $e');
+      print('Error: $e');
     }
   }
 
@@ -88,7 +85,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         });
       }
     } catch (e) {
-      print('Error fetching top-up amount: $e');
+      print('Error: $e');
     }
   }
 
@@ -108,7 +105,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         return ''; 
       }
     } catch (e) {
-      print('Error getting image from Firebase Storage: $e');
+      print('Error : $e');
       return '';
     }
   }
