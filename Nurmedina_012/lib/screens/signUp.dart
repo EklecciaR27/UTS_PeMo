@@ -58,6 +58,10 @@ class _RegisState extends State<Regis> {
       );
       //proses penyimpanan data user ke dalam UserData   
       Provider.of<UserData>(context, listen: false).addUser(newUser);
+       Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Login()),
+      );
 
      
     } catch (e) {//error handling
@@ -257,10 +261,7 @@ class _RegisState extends State<Regis> {
                         ElevatedButton(
                           onPressed: () {
                             handleSubmit();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Login()),
-                            );
+                            
                           },
                           child: _loading
                               ? SizedBox(
